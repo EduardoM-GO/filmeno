@@ -22,7 +22,7 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 
 # Entidades
 
-(Falta criar)
+![image](diagrama_entidades.png)
 
 # Casos de Uso
 
@@ -52,3 +52,4 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 - url_launcher: Para abrir link.
 - path_provider: Para obter o local do cache.
 - Mocktail: Para testes de unidade.
+- video_thumbnail: Para mostra a thumbnail dos trailer
