@@ -26,8 +26,7 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 
 # Casos de Uso
 
-(Falta criar)
-
+![image](diagrama_caso_de_uso.png)
 
 # Design Patterns
 - Datasource Pattern: Para acesso a API externa.
