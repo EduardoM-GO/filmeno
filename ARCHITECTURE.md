@@ -45,7 +45,7 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 
 - flutter_modular: Modularização de rotas e injeção de dependências.
 - result: Retorno múltiplo no formato Failure e Success.
-- isar: Para cache.
+- isar: Banco de dados.
 - http: Para comunicação com API.
 - shimmer: Para animação do loading.
 - url_launcher: Para abrir link.
