@@ -22,19 +22,19 @@ A Pesquisa Retornara todos os conteúdos que contém o valor pesquisado.
 
 ## 1.3 Marcar e desmarcar conteúdo como favorito
 
-Deverá ter um ícone de estrela no conteúdo para o usuário favoritar e desfavoritar.
+Deverá ter um ícone de coração no conteúdo para o usuário favoritar e desfavoritar.
 
 ## 1.4 Consultar conteúdos favoritado
 
-Usuário possuirá uma tela onde vai listar todos os conteúdos favoritado.
+Deverá listar todos os conteúdos favoritado na tela inicial.
 
 ## 1.5 Adicionar e remover conteúdo para assistir mais tarde
 
-Deverá ter um ícone de relógio no conteúdo para o usuário adicionar e remover da lista “Assistir mais tarde”
+Deverá ter um ícone de bookmark(marca páginas) no conteúdo para o usuário adicionar e remover da lista “Assistir mais tarde”
 
 ## 1.6 Consultar conteúdo "assistir mais tarde"
 
-Usuário possuirá uma tela onde vai listar todos os conteúdos "assistir mais tarde".
+Deverá listar todos os conteúdos "assistir mais tarde" na tela inicial.
 
 ## 1.7 Redirecionar para plataforma que o conteúdo esteja disponível
 
@@ -42,7 +42,9 @@ Deverá conter ícones das plataforma que o conteúdo esta disponível, quando o
 
 
 # 2. Experiência do Usuário
+Protótipo do aplicativo
 
+[Link do Figma](https://www.figma.com/file/Cg3vfOUz3SJ013rolzXIRX/Filmeno?type=design&node-id=1%3A562&mode=design&t=RszYLsIMnci9SjF6-1)
 
 
 # 3. Arquitetura
