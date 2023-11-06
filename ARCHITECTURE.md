@@ -50,4 +50,10 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 - shimmer: Para animação do loading.
 - url_launcher: Para abrir link.
 - path_provider: Para obter o local do cache.
+- equatable: usado para fazer comparação dos objetos.
+
+# Package externos (Dev)
+
 - Mocktail: Para testes de unidade.
+- isar_generator: Converte a classe em uma collection do isar.
+- build_runner: gerar os script automatico.
