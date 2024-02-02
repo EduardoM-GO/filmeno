@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
 part 'imagem.g.dart';
 
-@collection
-class Imagem {
+@Collection(ignore: {'props'})
+class Imagem extends Equatable {
   final Id? id;
   @Index(type: IndexType.value)
   final DateTime dataCriacao;
@@ -19,10 +20,12 @@ class Imagem {
     required this.imagem,
   });
 
-  @ignore
   factory Imagem.empty() => Imagem(
         dataCriacao: DateTime(0),
         url: '',
-        imagem: [],
+        imagem: const [],
       );
+
+  @override
+  List<Object?> get props => [id, dataCriacao, url, imagem];
 }

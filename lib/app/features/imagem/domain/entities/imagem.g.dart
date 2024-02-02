@@ -22,13 +22,23 @@ const ImagemSchema = CollectionSchema(
       name: r'dataCriacao',
       type: IsarType.dateTime,
     ),
-    r'imagem': PropertySchema(
+    r'hashCode': PropertySchema(
       id: 1,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'imagem': PropertySchema(
+      id: 2,
       name: r'imagem',
       type: IsarType.byteList,
     ),
+    r'stringify': PropertySchema(
+      id: 3,
+      name: r'stringify',
+      type: IsarType.bool,
+    ),
     r'url': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'url',
       type: IsarType.string,
     )
@@ -92,8 +102,10 @@ void _imagemSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.dataCriacao);
-  writer.writeByteList(offsets[1], object.imagem);
-  writer.writeString(offsets[2], object.url);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeByteList(offsets[2], object.imagem);
+  writer.writeBool(offsets[3], object.stringify);
+  writer.writeString(offsets[4], object.url);
 }
 
 Imagem _imagemDeserialize(
@@ -105,8 +117,8 @@ Imagem _imagemDeserialize(
   final object = Imagem(
     dataCriacao: reader.readDateTime(offsets[0]),
     id: id,
-    imagem: reader.readByteList(offsets[1]) ?? [],
-    url: reader.readString(offsets[2]),
+    imagem: reader.readByteList(offsets[2]) ?? [],
+    url: reader.readString(offsets[4]),
   );
   return object;
 }
@@ -121,8 +133,12 @@ P _imagemDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readByteList(offset) ?? []) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
+      return (reader.readByteList(offset) ?? []) as P;
+    case 3:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -463,6 +479,59 @@ extension ImagemQueryFilter on QueryBuilder<Imagem, Imagem, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Imagem, Imagem, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -668,6 +737,32 @@ extension ImagemQueryFilter on QueryBuilder<Imagem, Imagem, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> stringifyIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'stringify',
+      ));
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> stringifyIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'stringify',
+      ));
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterFilterCondition> stringifyEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'stringify',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Imagem, Imagem, QAfterFilterCondition> urlEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -814,6 +909,30 @@ extension ImagemQuerySortBy on QueryBuilder<Imagem, Imagem, QSortBy> {
     });
   }
 
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> sortByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> sortByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> sortByStringify() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stringify', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> sortByStringifyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stringify', Sort.desc);
+    });
+  }
+
   QueryBuilder<Imagem, Imagem, QAfterSortBy> sortByUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.asc);
@@ -840,6 +959,18 @@ extension ImagemQuerySortThenBy on QueryBuilder<Imagem, Imagem, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> thenByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> thenByHashCodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hashCode', Sort.desc);
+    });
+  }
+
   QueryBuilder<Imagem, Imagem, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -849,6 +980,18 @@ extension ImagemQuerySortThenBy on QueryBuilder<Imagem, Imagem, QSortThenBy> {
   QueryBuilder<Imagem, Imagem, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> thenByStringify() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stringify', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QAfterSortBy> thenByStringifyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'stringify', Sort.desc);
     });
   }
 
@@ -872,9 +1015,21 @@ extension ImagemQueryWhereDistinct on QueryBuilder<Imagem, Imagem, QDistinct> {
     });
   }
 
+  QueryBuilder<Imagem, Imagem, QDistinct> distinctByHashCode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hashCode');
+    });
+  }
+
   QueryBuilder<Imagem, Imagem, QDistinct> distinctByImagem() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'imagem');
+    });
+  }
+
+  QueryBuilder<Imagem, Imagem, QDistinct> distinctByStringify() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'stringify');
     });
   }
 
@@ -899,9 +1054,21 @@ extension ImagemQueryProperty on QueryBuilder<Imagem, Imagem, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Imagem, int, QQueryOperations> hashCodeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hashCode');
+    });
+  }
+
   QueryBuilder<Imagem, List<int>, QQueryOperations> imagemProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imagem');
+    });
+  }
+
+  QueryBuilder<Imagem, bool?, QQueryOperations> stringifyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'stringify');
     });
   }
 

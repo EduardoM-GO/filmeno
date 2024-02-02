@@ -33,7 +33,10 @@ class ImagemCacheImpl implements ImagemCache {
   Future<Result<Unit, Falha>> salvar(Imagem imagem) async {
     try {
       final isar = await getInstancia();
-      await isar.imagems.put(imagem);
+
+      await isar.writeTxn(() async {
+        await isar.imagems.put(imagem);
+      });
 
       return const Success(unit);
     } catch (exception, stack) {
@@ -51,11 +54,12 @@ class ImagemCacheImpl implements ImagemCache {
     try {
       final dataMaximaCache = DateTime.now().subtract(const Duration(days: 7));
       final isar = await getInstancia();
-      await isar.imagems
-          .filter()
-          .dataCriacaoLessThan(dataMaximaCache)
-          .deleteAll();
-
+      await isar.writeTxn(() async {
+        await isar.imagems
+            .filter()
+            .dataCriacaoLessThan(dataMaximaCache)
+            .deleteAll();
+      });
       return const Success(unit);
     } catch (exception, stack) {
       return Failure(Erro(
@@ -73,11 +77,11 @@ class ImagemCacheImpl implements ImagemCache {
     if (_isar?.isOpen ?? false) {
       return _isar!;
     }
-    final isar = await Isar.open(
+    _isar = await Isar.open(
       [ImagemSchema],
       directory: diretorio.path,
     );
 
-    return isar;
+    return _isar!;
   }
 }
