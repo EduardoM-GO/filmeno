@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
-
-enum TipoDeAcesso { comprar, alugar, assinatura }
+import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/tipo_acesso.dart';
 
 class PlataformaStreaming extends Equatable {
   final String codigo;
   final String nome;
   final String urlLogo;
   final String linkParaConteudo;
-  final TipoDeAcesso tipoDeAcesso;
+  final TipoAcesso tipoDeAcesso;
 
   const PlataformaStreaming({
     required this.codigo,

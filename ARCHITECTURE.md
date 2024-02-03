@@ -17,7 +17,7 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 - Atualizações no Modelo de domínio só poderão ser aceitas se primeiro for adicionada nesse documento e aprovado por todos os envolvidos no projeto.
 - Não é permitido ter uma classe concreta como dependência de uma camada. Só será aceita coesão com classes abstratas ou interfaces. Com exceção da Store.
 - Cada camada deve ter apenas uma responsabilidade.
-
+- Cada enum deve ser definido em seu próprio arquivo, semelhante a uma classe.
 
 
 # Entidades

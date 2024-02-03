@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-enum TipoConteudo { filme, serie }
+import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart';
 
 class Conteudo extends Equatable {
   final String codigo;
