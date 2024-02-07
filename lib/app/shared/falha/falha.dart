@@ -4,14 +4,17 @@ sealed class Falha extends Equatable {
   final String mensagemParaUsuario;
   final String tagMetodo;
 
-  const Falha(this.mensagemParaUsuario, this.tagMetodo);
+  const Falha({required this.mensagemParaUsuario, required this.tagMetodo});
 
   @override
   List<Object?> get props => [mensagemParaUsuario, tagMetodo];
 }
 
 final class Aviso extends Falha {
-  const Aviso(super.mensagemParaUsuario, super.tagMetodo);
+  const Aviso({
+    required super.mensagemParaUsuario,
+    required super.tagMetodo,
+  });
 }
 
 final class Erro extends Falha {
@@ -19,11 +22,11 @@ final class Erro extends Falha {
   final StackTrace stack;
 
   const Erro({
-    required String mensagemParaUsuario,
+    required super.mensagemParaUsuario,
     required this.exception,
     required this.stack,
-    required String tagMetodo,
-  }) : super(mensagemParaUsuario, tagMetodo);
+    required super.tagMetodo,
+  });
 
   @override
   List<Object?> get props => [...super.props, exception, stack];

@@ -14,7 +14,18 @@ class _MockDbHelperService extends Mock implements DbHelperService {}
 class _MockIsarCollection<Imagem> extends Mock
     implements IsarCollection<Imagem> {}
 
-class _MockIsar extends Mock implements Isar {}
+class _MockIsar extends Mock implements Isar {
+  @override
+  Future<T> writeTxn<T>(Future<T> Function() callback, {bool silent = false}) =>
+      callback();
+}
+
+class _MockQueryBuilderInternal extends Mock
+    implements QueryBuilderInternal<Imagem> {}
+
+class _FakeFilterCondition extends Fake implements FilterCondition {}
+
+class MockQuery extends Mock implements Query<Imagem> {}
 
 void main() {
   late DbHelperService service;
@@ -86,13 +97,11 @@ void main() {
       imagem =
           Imagem(dataCriacao: DateTime.now(), url: 'url', imagem: Uint8List(0));
     });
+
     test('ok', () async {
       when(
         () => collection.put(imagem),
       ).thenAnswer((invocation) async => 0);
-
-      when(() => isar.writeTxn<Null>(any()))
-          .thenAnswer((invocation) async => null);
 
       final result = await cacheImpl.salvar(imagem);
       expect(result.isSuccess(), equals(true));
@@ -102,9 +111,7 @@ void main() {
     test('Erro', () async {
       when(
         () => collection.put(imagem),
-      ).thenAnswer((invocation) async => 0);
-
-      when(() => isar.writeTxn<Null>(any())).thenThrow(Exception());
+      ).thenThrow(Exception());
 
       final result = await cacheImpl.salvar(imagem);
       expect(result.isError(), equals(true));
@@ -116,17 +123,35 @@ void main() {
   });
 
   group('imagem cache impl - excluirCacheAntigos -', () {
-    late QueryBuilder<Imagem, Imagem, QFilterCondition> queryBuilder;
+    late QueryBuilderInternal<Imagem> queryBuilderInternal;
+    late QueryBuilder<Imagem, Imagem, QAfterFilterCondition> queryBuilder;
+    late Query<Imagem> query;
     setUp(() {
-      queryBuilder = const QueryBuilder(QueryBuilderInternal());
+      queryBuilderInternal = _MockQueryBuilderInternal();
+      queryBuilder = QueryBuilder(queryBuilderInternal);
+      query = MockQuery();
+      registerFallbackValue(_FakeFilterCondition());
     });
+
     test('ok', () async {
       when(
         () => collection.filter(),
       ).thenReturn(queryBuilder);
+      when(
+        () => queryBuilder.dataCriacaoLessThan(cacheImpl.dataLimiteCacheAntigo),
+      ).thenAnswer((invocation) => queryBuilder);
 
-      when(() => isar.writeTxn<Null>(any()))
-          .thenAnswer((invocation) async => null);
+      when(
+        () => queryBuilderInternal.addFilterCondition(any<FilterCondition>()),
+      ).thenReturn(queryBuilderInternal);
+
+      when(
+        () => queryBuilder.build(),
+      ).thenReturn(query);
+
+      when(
+        () => query.deleteAll(),
+      ).thenAnswer((invocation) async => 0);
 
       final result = await cacheImpl.excluirCacheAntigos();
       expect(result.isSuccess(), equals(true));
@@ -136,9 +161,7 @@ void main() {
     test('Erro', () async {
       when(
         () => collection.filter(),
-      ).thenReturn(queryBuilder);
-
-      when(() => isar.writeTxn<Null>(any())).thenThrow(Exception());
+      ).thenThrow(Exception());
 
       final result = await cacheImpl.excluirCacheAntigos();
       expect(result.isError(), equals(true));

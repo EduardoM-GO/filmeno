@@ -52,12 +52,11 @@ class ImagemCacheImpl implements ImagemCache {
   @override
   Future<Result<Unit, Falha>> excluirCacheAntigos() async {
     try {
-      final dataMaximaCache = DateTime.now().subtract(const Duration(days: 7));
       final db = await dbHelper.getInstancia();
       await db.writeTxn(() async {
         await db.imagems
             .filter()
-            .dataCriacaoLessThan(dataMaximaCache)
+            .dataCriacaoLessThan(dataLimiteCacheAntigo)
             .deleteAll();
       });
       return const Success(unit);
@@ -69,5 +68,14 @@ class ImagemCacheImpl implements ImagemCache {
         tagMetodo: 'ImagemCacheImpl-excluirCacheAntigos',
       ));
     }
+  }
+
+  DateTime get dataLimiteCacheAntigo {
+    final dataAtual = DateTime.now();
+    final DateTime data =
+        DateTime(dataAtual.year, dataAtual.month, dataAtual.day)
+            .subtract(const Duration(days: 7));
+
+    return data;
   }
 }
