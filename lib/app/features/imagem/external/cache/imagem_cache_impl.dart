@@ -1,22 +1,22 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 import 'package:filmeno/app/features/imagem/infra/cache/imagem_cache.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
+import 'package:filmeno/app/shared/infra/service/db_helper_service.dart';
 import 'package:isar/isar.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ImagemCacheImpl implements ImagemCache {
-  final Directory diretorio;
+  final DbHelperService dbHelper;
 
-  ImagemCacheImpl(this.diretorio);
+  ImagemCacheImpl(this.dbHelper);
 
   @override
   Future<Result<Imagem, Falha>> obterImagem(String url) async {
     try {
-      final isar = await getInstancia();
-      final result = await isar.imagems.getByUrl(url);
+      final db = await dbHelper.getInstancia();
+      final result = await db.imagems.getByUrl(url);
       final Imagem imagem = result ?? Imagem.empty();
       return Success(imagem);
     } catch (exception, stack) {
@@ -32,10 +32,10 @@ class ImagemCacheImpl implements ImagemCache {
   @override
   Future<Result<Unit, Falha>> salvar(Imagem imagem) async {
     try {
-      final isar = await getInstancia();
+      final db = await dbHelper.getInstancia();
 
-      await isar.writeTxn(() async {
-        await isar.imagems.put(imagem);
+      await db.writeTxn(() async {
+        await db.imagems.put(imagem);
       });
 
       return const Success(unit);
@@ -53,9 +53,9 @@ class ImagemCacheImpl implements ImagemCache {
   Future<Result<Unit, Falha>> excluirCacheAntigos() async {
     try {
       final dataMaximaCache = DateTime.now().subtract(const Duration(days: 7));
-      final isar = await getInstancia();
-      await isar.writeTxn(() async {
-        await isar.imagems
+      final db = await dbHelper.getInstancia();
+      await db.writeTxn(() async {
+        await db.imagems
             .filter()
             .dataCriacaoLessThan(dataMaximaCache)
             .deleteAll();
@@ -63,25 +63,11 @@ class ImagemCacheImpl implements ImagemCache {
       return const Success(unit);
     } catch (exception, stack) {
       return Failure(Erro(
-        mensagemParaUsuario: 'Não foi possível excluir o cache antigo',
+        mensagemParaUsuario: 'Não foi possível excluir os caches antigos',
         exception: exception,
         stack: stack,
         tagMetodo: 'ImagemCacheImpl-excluirCacheAntigos',
       ));
     }
-  }
-
-  Isar? _isar;
-
-  FutureOr<Isar> getInstancia() async {
-    if (_isar?.isOpen ?? false) {
-      return _isar!;
-    }
-    _isar = await Isar.open(
-      [ImagemSchema],
-      directory: diretorio.path,
-    );
-
-    return _isar!;
   }
 }

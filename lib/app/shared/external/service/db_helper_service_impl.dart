@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
-import 'package:filmeno/app/shared/infra/service/db_helper.dart';
+import 'package:filmeno/app/shared/infra/service/db_helper_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
-class DbHelperImpl implements DbHelper {
+class DbHelperServiceImpl implements DbHelperService {
   final Directory diretorio;
 
-  DbHelperImpl(this.diretorio);
+  DbHelperServiceImpl(this.diretorio);
 
   @override
   FutureOr<Isar> getInstancia() {

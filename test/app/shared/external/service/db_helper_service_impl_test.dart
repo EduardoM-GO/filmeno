@@ -1,30 +1,30 @@
 import 'dart:io';
 
-import 'package:filmeno/app/shared/external/service/db_helper_impl.dart';
+import 'package:filmeno/app/shared/external/service/db_helper_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 
 void main() {
-  late DbHelperImpl dbHelperImpl;
+  late DbHelperServiceImpl dbHelperImpl;
   setUpAll(() async {
     await Isar.initializeIsarCore(download: true);
   });
 
   setUp(() {
-    dbHelperImpl = DbHelperImpl(Directory(''));
+    dbHelperImpl = DbHelperServiceImpl(Directory(''));
   });
 
   tearDownAll(() async {
     await Isar.getInstance()?.close(deleteFromDisk: true);
   });
 
-  test('db helper impl - open', () async {
+  test('db helper service impl - open', () async {
     final result = await dbHelperImpl.open();
 
     expect(result.isOpen, equals(true));
   });
 
-  group('db helper impl - getInstancia -', () {
+  group('db helper service impl - getInstancia -', () {
     setUp(() async {
       await Isar.getInstance()?.close();
     });
