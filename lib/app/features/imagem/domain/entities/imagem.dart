@@ -20,6 +20,8 @@ class Imagem extends Equatable {
     required this.imagem,
   });
 
+  bool get isNotEmpty => url.isNotEmpty;
+
   factory Imagem.empty() => Imagem(
         dataCriacao: DateTime(0),
         url: '',
