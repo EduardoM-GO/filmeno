@@ -3,7 +3,7 @@ import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart'
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:result_dart/result_dart.dart';
 
-abstract interface class FilmeDatasource {
+abstract interface class FilmeRepository {
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarPopulares(
       {int? proximaPagina});
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarEmCartaz(

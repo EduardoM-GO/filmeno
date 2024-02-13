@@ -6,18 +6,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:result_dart/result_dart.dart';
 
+import '../../../../mock/aviso_mock.dart';
+
 class _MockImagemCache extends Mock implements ImagemCache {}
 
 void main() {
   late ImagemCache cache;
   late ImagemRepositoryImpl repository;
-  late Aviso avisoMock;
 
   setUp(() {
     cache = _MockImagemCache();
     repository = ImagemRepositoryImpl(cache);
-    avisoMock = const Aviso(
-        mensagemParaUsuario: 'mensagemParaUsuario', tagMetodo: 'tagMetodo');
   });
 
   group('imagem repository impl - excluirCacheAntigos -', () {

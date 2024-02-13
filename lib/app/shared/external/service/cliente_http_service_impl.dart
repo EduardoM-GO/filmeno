@@ -18,7 +18,12 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
       required Mapper<T> mapper,
       Map<String, String>? headers}) async {
     final Uri uri = Uri.parse(url);
-    final response = await _client.get(uri, headers: headers);
+
+    Map<String, String> headersCompleto = headers ?? {};
+
+    headersCompleto.addAll({'language': 'pt-BR'});
+
+    final response = await _client.get(uri, headers: headersCompleto);
 
     if (response.statusCode != 200) {
       throw response;
@@ -35,14 +40,14 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
   Future<RespostaHttp<List<T>>> getList<T extends Object>({
     required String url,
     required Mapper<T> mapper,
-    int pagina = 1,
+    int? pagina,
     Map<String, String>? headers,
   }) async {
     final Uri uri = Uri.parse(url);
 
     Map<String, String> headersCompleto = headers ?? {};
 
-    headersCompleto.addAll({'page': '$pagina'});
+    headersCompleto.addAll({'page': '${pagina ?? 1}', 'language': 'pt-BR'});
 
     final response = await _client.get(uri, headers: headersCompleto);
 
@@ -72,5 +77,16 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
         RespostaHttp<List<T>>(metadadosHttp: metadadosHttp, retorno: retorno);
 
     return respostaHttp;
+  }
+
+  @override
+  Future<Uint8List> getImagem(String url) async {
+    final Uri uri = Uri.parse(url);
+    final response = await _client.get(uri);
+    
+    if (response.statusCode != 200) {
+      throw response;
+    }
+    return response.bodyBytes;
   }
 }

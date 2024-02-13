@@ -52,7 +52,7 @@ void main() {
     });
 
     test('status == 200', () async {
-      when(() => client.get(Uri.parse(url)))
+      when(() => client.get(Uri.parse(url), headers: {'language': 'pt-BR'}))
           .thenAnswer((invocation) async => http.Response.bytes(jsonUtf8, 200));
 
       final result = await serviceImpl.get<Filme>(url: url, mapper: mapper);
@@ -71,7 +71,7 @@ void main() {
     });
 
     test('status != 200', () async {
-      when(() => client.get(Uri.parse(url)))
+      when(() => client.get(Uri.parse(url), headers: {'language': 'pt-BR'}))
           .thenAnswer((invocation) async => http.Response('', 201));
 
       expect(() async => serviceImpl.get<Filme>(url: url, mapper: mapper),
@@ -87,7 +87,8 @@ void main() {
     });
 
     test('status == 200', () async {
-      when(() => client.get(Uri.parse(url), headers: {'page': '1'}))
+      when(() => client
+              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
           .thenAnswer((invocation) async => http.Response.bytes(jsonUtf8, 200));
 
       final result = await serviceImpl.getList<Filme>(url: url, mapper: mapper);
@@ -109,8 +110,10 @@ void main() {
         "total_results": 848741
       }));
 
-      when(() => client.get(Uri.parse(url), headers: {'page': '1'})).thenAnswer(
-          (invocation) async => http.Response.bytes(jsonUtf8Empty, 200));
+      when(() => client
+              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
+          .thenAnswer(
+              (invocation) async => http.Response.bytes(jsonUtf8Empty, 200));
 
       final result = await serviceImpl.getList<Filme>(url: url, mapper: mapper);
 
@@ -124,7 +127,8 @@ void main() {
     });
 
     test('status != 200', () async {
-      when(() => client.get(Uri.parse(url), headers: {'page': '1'}))
+      when(() => client
+              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
           .thenAnswer((invocation) async => http.Response('', 201));
 
       expect(() async => serviceImpl.getList<Filme>(url: url, mapper: mapper),
@@ -141,5 +145,16 @@ void main() {
         const MetadadosHttp(paginaAtual: 2, quantidadePaginaTotal: 42438));
     expect(result.retorno, isA<List<Filme>>());
     expect(result.retorno.length, 20);
+  });
+
+  test('cliente http service impl - getImagem', () async {
+    when(() => client.get(Uri.parse(url)))
+        .thenAnswer((invocation) async => http.Response('', 200));
+
+    final result = await serviceImpl.getImagem(url);
+
+    expect(result, isA<Uint8List>());
+
+    expect(result, Uint8List(0));
   });
 }
