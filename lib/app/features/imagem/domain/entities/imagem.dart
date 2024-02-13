@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
@@ -11,16 +13,18 @@ class Imagem extends Equatable {
   @Index(type: IndexType.hash, unique: true, replace: true)
   final String url;
 
-  final List<byte> imagem;
+  final List<byte> _imagem;
 
   const Imagem({
     this.id,
     required this.dataCriacao,
     required this.url,
-    required this.imagem,
-  });
+    required List<int> imagem,
+  }) : _imagem = imagem;
 
   bool get isNotEmpty => url.isNotEmpty;
+  
+  Uint8List get imagem => Uint8List.fromList(_imagem);
 
   factory Imagem.empty() => Imagem(
         dataCriacao: DateTime(0),
@@ -29,5 +33,5 @@ class Imagem extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, dataCriacao, url, imagem];
+  List<Object?> get props => [id, dataCriacao, url, _imagem];
 }

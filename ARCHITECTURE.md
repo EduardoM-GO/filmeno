@@ -47,7 +47,6 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 - result: Retorno múltiplo no formato Failure e Success.
 - isar: Banco de dados.
 - http: Para comunicação com API.
-- shimmer: Para animação do loading.
 - url_launcher: Para abrir link.
 - path_provider: Para obter o local do cache.
 - equatable: usado para fazer comparação dos objetos.

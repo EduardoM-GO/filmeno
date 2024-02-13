@@ -6,5 +6,5 @@ class Configuracao {
 
   String get apiUrlBase => 'https://api.themoviedb.org/3';
   String get imagemUrlBase => 'https://image.tmdb.org/t/p/original';
-  
+  Duration get duracaoAnimacao => const Duration(milliseconds: 500);
 }

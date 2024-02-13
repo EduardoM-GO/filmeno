@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart';
 
-class Conteudo extends Equatable {
+abstract class Conteudo extends Equatable {
   final String codigo;
   final String nome;
   final String urlCapa;
