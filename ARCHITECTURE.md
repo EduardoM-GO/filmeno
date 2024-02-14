@@ -43,7 +43,8 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 
 # Package externos
 
-- flutter_modular: Modularização de rotas e injeção de dependências.
+- go_router: gerenciamento de rotas.
+- get_it: injeção de dependências.
 - result: Retorno múltiplo no formato Failure e Success.
 - isar: Banco de dados.
 - http: Para comunicação com API.

@@ -1,13 +1,12 @@
-import 'package:filmeno/app/app_module.dart';
-import 'package:filmeno/app/app_widget.dart';
+import 'package:filmeno/app/shared/theme/color_schemes.g.dart';
+import 'package:filmeno/app/shared/theme/theme_custom.dart';
+import 'package:filmeno/app_rotas.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 void main() {
-  runApp(
-    ModularApp(
-      module: AppModule(),
-      child: const AppWidget(),
-    ),
-  );
+  runApp(MaterialApp.router(
+    title: 'Filmeno',
+    theme: themeCustom(colorScheme: darkColorScheme),
+    routerConfig: appRotas,
+  ));
 }
