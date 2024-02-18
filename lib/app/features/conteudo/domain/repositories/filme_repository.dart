@@ -11,5 +11,5 @@ abstract interface class FilmeRepository {
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
       buscarProximasEstreias({int? proximaPagina});
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMaisBemAvaliados({int? proximaPagina});
+      buscarMelhoresAvalidados({int? proximaPagina});
 }

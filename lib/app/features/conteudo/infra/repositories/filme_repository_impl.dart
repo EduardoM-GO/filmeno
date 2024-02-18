@@ -17,8 +17,8 @@ class FilmeRepositoryImpl implements FilmeRepository {
 
   @override
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMaisBemAvaliados({int? proximaPagina}) =>
-          _datasource.buscarMaisBemAvaliados(proximaPagina: proximaPagina);
+      buscarMelhoresAvalidados({int? proximaPagina}) =>
+          _datasource.buscarMelhoresAvalidados(proximaPagina: proximaPagina);
 
   @override
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarPopulares(

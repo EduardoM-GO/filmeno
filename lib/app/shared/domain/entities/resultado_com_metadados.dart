@@ -1,24 +1,24 @@
+import 'package:equatable/equatable.dart';
 import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
 import 'package:filmeno/app/shared/domain/entities/resposta_http.dart';
 
-class ResultadoComMetadados<T extends Object> extends MetadadosHttp {
-  final T retorno;
+class ResultadoComMetadados<T extends Object> extends Equatable {
+  final T resultado;
+  final MetadadosHttp metadados;
 
   const ResultadoComMetadados({
-    required super.paginaAtual,
-    required super.quantidadePaginaTotal,
-    required this.retorno,
+    required this.metadados,
+    required this.resultado,
   });
 
   factory ResultadoComMetadados.fromRespostaHttp(
     RespostaHttp<T> respostaHttp,
   ) =>
       ResultadoComMetadados(
-        paginaAtual: respostaHttp.metadadosHttp.paginaAtual,
-        quantidadePaginaTotal: respostaHttp.metadadosHttp.quantidadePaginaTotal,
-        retorno: respostaHttp.retorno,
+        metadados: respostaHttp.metadadosHttp,
+        resultado: respostaHttp.resultado,
       );
 
   @override
-  List<Object?> get props => [...super.props, retorno];
+  List<Object?> get props => [resultado, metadados];
 }

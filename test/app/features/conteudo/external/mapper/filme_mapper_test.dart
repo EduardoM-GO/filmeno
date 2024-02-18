@@ -33,7 +33,7 @@ void main() {
       result,
       const Filme(
           codigo: '933131',
-          nome: 'Em Ruínas',
+          titulo: 'Em Ruínas',
           urlCapa: '/vT3xahepzP796ei0NiZIZ6t8vsl.jpg',
           avalicaoUsuario: 6.925,
           favorito: false,

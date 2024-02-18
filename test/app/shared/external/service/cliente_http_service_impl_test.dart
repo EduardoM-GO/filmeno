@@ -63,7 +63,7 @@ void main() {
           result,
           equals(const Filme(
               codigo: '753342',
-              nome: 'Napoleão',
+              titulo: 'Napoleão',
               urlCapa: '/oaUS0YJN3cHpvin1BMNmmnv0gRX.jpg',
               avalicaoUsuario: 6.524,
               favorito: false,
@@ -98,8 +98,8 @@ void main() {
           result.metadadosHttp,
           equals(const MetadadosHttp(
               paginaAtual: 2, quantidadePaginaTotal: 42438)));
-      expect(result.retorno, isA<List<Filme>>());
-      expect(result.retorno.length, equals(20));
+      expect(result.resultado, isA<List<Filme>>());
+      expect(result.resultado.length, equals(20));
     });
 
     test('status == 200 - sem dados', () async {
@@ -123,7 +123,7 @@ void main() {
           equals(const RespostaHttp<List<Filme>>(
               metadadosHttp:
                   MetadadosHttp(paginaAtual: 2, quantidadePaginaTotal: 42438),
-              retorno: [])));
+              resultado: [])));
     });
 
     test('status != 200', () async {
@@ -143,8 +143,8 @@ void main() {
     expect(result, isA<RespostaHttp<List<Filme>>>());
     expect(result.metadadosHttp,
         const MetadadosHttp(paginaAtual: 2, quantidadePaginaTotal: 42438));
-    expect(result.retorno, isA<List<Filme>>());
-    expect(result.retorno.length, 20);
+    expect(result.resultado, isA<List<Filme>>());
+    expect(result.resultado.length, 20);
   });
 
   test('cliente http service impl - getImagem', () async {

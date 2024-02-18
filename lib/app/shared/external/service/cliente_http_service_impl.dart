@@ -74,7 +74,7 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
     final MetadadosHttp metadadosHttp = _metadadosMapper.fromMap(map);
 
     final RespostaHttp<List<T>> respostaHttp =
-        RespostaHttp<List<T>>(metadadosHttp: metadadosHttp, retorno: retorno);
+        RespostaHttp<List<T>>(metadadosHttp: metadadosHttp, resultado: retorno);
 
     return respostaHttp;
   }
@@ -83,7 +83,7 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
   Future<Uint8List> getImagem(String url) async {
     final Uri uri = Uri.parse(url);
     final response = await _client.get(uri);
-    
+
     if (response.statusCode != 200) {
       throw response;
     }

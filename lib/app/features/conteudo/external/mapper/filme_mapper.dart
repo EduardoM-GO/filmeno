@@ -5,7 +5,7 @@ class FilmeMapper implements Mapper<Filme> {
   @override
   Filme fromMap(Map<String, dynamic> map) => Filme(
         codigo: map['id'].toString(),
-        nome: map['title'],
+        titulo: map['title'],
         urlCapa: map['poster_path'],
         avalicaoUsuario: map['vote_average'],
         favorito: false,

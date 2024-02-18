@@ -12,7 +12,7 @@ class ConteudoDetalhado extends Conteudo {
 
   const ConteudoDetalhado({
     required super.codigo,
-    required super.nome,
+    required super.titulo,
     required super.urlCapa,
     required super.avalicaoUsuario,
     required super.favorito,
@@ -26,6 +26,40 @@ class ConteudoDetalhado extends Conteudo {
     required this.plataformas,
     required this.quantidadeDeTemporada,
   });
+
+  @override
+  ConteudoDetalhado copyWith({
+    String? codigo,
+    String? titulo,
+    String? urlCapa,
+    double? avalicaoUsuario,
+    bool? favorito,
+    bool? assistirMaisTarde,
+    String? faixaEtaria,
+    DateTime? dataLancamento,
+    Duration? duracao,
+    List<String>? generos,
+    String? sinopse,
+    List<PlataformaStreaming>? plataformas,
+    int? quantidadeDeTemporada,
+  }) =>
+      ConteudoDetalhado(
+        codigo: codigo ?? this.codigo,
+        titulo: titulo ?? this.titulo,
+        urlCapa: urlCapa ?? this.urlCapa,
+        avalicaoUsuario: avalicaoUsuario ?? this.avalicaoUsuario,
+        favorito: favorito ?? this.favorito,
+        assistirMaisTarde: assistirMaisTarde ?? this.assistirMaisTarde,
+        tipo: tipo,
+        faixaEtaria: faixaEtaria ?? this.faixaEtaria,
+        dataLancamento: dataLancamento ?? this.dataLancamento,
+        duracao: duracao ?? this.duracao,
+        generos: generos ?? this.generos,
+        sinopse: sinopse ?? this.sinopse,
+        plataformas: plataformas ?? this.plataformas,
+        quantidadeDeTemporada:
+            quantidadeDeTemporada ?? this.quantidadeDeTemporada,
+      );
 
   @override
   List<Object?> get props => [

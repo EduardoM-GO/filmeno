@@ -28,7 +28,7 @@ void main() {
     reset(callback);
     conteudo = const Filme(
         codigo: '',
-        nome: '',
+        titulo: '',
         urlCapa: '',
         avalicaoUsuario: 0,
         favorito: false,

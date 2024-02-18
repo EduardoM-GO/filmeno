@@ -7,6 +7,10 @@ class MetadadosHttp extends Equatable {
   const MetadadosHttp(
       {required this.paginaAtual, required this.quantidadePaginaTotal});
 
+  int get proximaPagina => paginaAtual + 1;
+
+  bool get temProximaPagina => paginaAtual < quantidadePaginaTotal;
+
   @override
   List<Object?> get props => [paginaAtual, quantidadePaginaTotal];
 }

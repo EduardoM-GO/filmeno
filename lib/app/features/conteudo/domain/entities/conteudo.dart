@@ -3,7 +3,7 @@ import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart
 
 abstract class Conteudo extends Equatable {
   final String codigo;
-  final String nome;
+  final String titulo;
   final String urlCapa;
   final double avalicaoUsuario;
   final bool favorito;
@@ -12,7 +12,7 @@ abstract class Conteudo extends Equatable {
 
   const Conteudo({
     required this.codigo,
-    required this.nome,
+    required this.titulo,
     required this.urlCapa,
     required this.avalicaoUsuario,
     required this.favorito,
@@ -20,10 +20,19 @@ abstract class Conteudo extends Equatable {
     required this.tipo,
   });
 
+  Conteudo copyWith({
+    String? codigo,
+    String? titulo,
+    String? urlCapa,
+    double? avalicaoUsuario,
+    bool? favorito,
+    bool? assistirMaisTarde,
+  });
+
   @override
   List<Object?> get props => [
         codigo,
-        nome,
+        titulo,
         urlCapa,
         avalicaoUsuario,
         favorito,

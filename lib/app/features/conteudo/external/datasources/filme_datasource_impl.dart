@@ -38,7 +38,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
 
   @override
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMaisBemAvaliados({int? proximaPagina}) async {
+      buscarMelhoresAvalidados({int? proximaPagina}) async {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',

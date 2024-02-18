@@ -27,10 +27,11 @@ void main() {
     datasourceImpl = FilmeDatasourceImpl(httpService, mapper);
     respostaHttp = const RespostaHttp(
         metadadosHttp: MetadadosHttp(paginaAtual: 1, quantidadePaginaTotal: 6),
-        retorno: []);
+        resultado: []);
 
     resultado = const ResultadoComMetadados(
-        paginaAtual: 1, quantidadePaginaTotal: 6, retorno: []);
+        resultado: [],
+        metadados: MetadadosHttp(paginaAtual: 1, quantidadePaginaTotal: 6));
   });
 
   group('filme datasource impl - buscarEmCartaz -', () {
@@ -67,7 +68,7 @@ void main() {
     });
   });
 
-  group('filme datasource impl - buscarMaisBemAvaliados -', () {
+  group('filme datasource impl - buscarMelhoresAvalidados -', () {
     test('Ok', () async {
       when(
         () => httpService.getList(
@@ -75,7 +76,7 @@ void main() {
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
-      final result = await datasourceImpl.buscarMaisBemAvaliados();
+      final result = await datasourceImpl.buscarMelhoresAvalidados();
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
@@ -91,7 +92,7 @@ void main() {
             mapper: mapper),
       ).thenThrow(Exception());
 
-      final result = await datasourceImpl.buscarMaisBemAvaliados();
+      final result = await datasourceImpl.buscarMelhoresAvalidados();
 
       expect(result.isError(), equals(true));
       expect(

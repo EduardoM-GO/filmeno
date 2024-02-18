@@ -11,5 +11,5 @@ abstract interface class FilmeDatasource {
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
       buscarProximasEstreias({int? proximaPagina});
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMaisBemAvaliados({int? proximaPagina});
+      buscarMelhoresAvalidados({int? proximaPagina});
 }

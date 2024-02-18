@@ -1,6 +1,7 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
 import 'package:filmeno/app/features/conteudo/infra/repositories/filme_repository_impl.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
 import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,7 +21,8 @@ void main() {
     datasource = _MockFilmeDatasource();
     repository = FilmeRepositoryImpl(datasource);
     resultado = const ResultadoComMetadados(
-        paginaAtual: 0, quantidadePaginaTotal: 0, retorno: []);
+        resultado: [],
+        metadados: MetadadosHttp(paginaAtual: 0, quantidadePaginaTotal: 0));
   });
 
   group('filme repository impl - buscarEmCartaz -', () {
@@ -51,12 +53,12 @@ void main() {
     });
   });
 
-  group('filme repository impl - buscarMaisBemAvaliados -', () {
+  group('filme repository impl - buscarMelhoresAvalidados -', () {
     test('Ok', () async {
       when(
-        () => datasource.buscarMaisBemAvaliados(),
+        () => datasource.buscarMelhoresAvalidados(),
       ).thenAnswer((invocation) async => Success(resultado));
-      final result = await repository.buscarMaisBemAvaliados();
+      final result = await repository.buscarMelhoresAvalidados();
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
@@ -67,9 +69,9 @@ void main() {
 
     test('Erro', () async {
       when(
-        () => datasource.buscarMaisBemAvaliados(),
+        () => datasource.buscarMelhoresAvalidados(),
       ).thenAnswer((invocation) async => Failure(avisoMock));
-      final result = await repository.buscarMaisBemAvaliados();
+      final result = await repository.buscarMelhoresAvalidados();
 
       expect(result.isError(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
