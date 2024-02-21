@@ -38,14 +38,19 @@ class _ImagemConteudoComponentState extends State<ImagemConteudoComponent> {
   @override
   Widget build(BuildContext context) {
     final state = store.state;
+    Widget? child;
+    if (state is ImagemConteudoSucessoState) {
+      child = ImagemWidget(imagem: state.imagem);
+    } else if (state is ImagemConteudoFalhaState) {
+      child = TentaNovamenteWidget(
+          onTap: () => store.carregaImagem(widget.conteudo));
+    } else {
+      child = const CircularProgressIndicator();
+    }
 
     return AnimatedSwitcher(
-        duration: Configuracao.instance.duracaoAnimacao,
-        child: switch (state) {
-          ImagemConteudoSucessoState() => ImagemWidget(imagem: state.imagem),
-          ImagemConteudoFalhaState() => TentaNovamenteWidget(
-              onTap: () => store.carregaImagem(widget.conteudo)),
-          _ => const CircularProgressIndicator()
-        });
+      duration: Configuracao.instance.duracaoAnimacao,
+      child: child,
+    );
   }
 }
