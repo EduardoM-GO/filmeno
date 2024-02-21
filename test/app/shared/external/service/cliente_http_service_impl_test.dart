@@ -65,7 +65,7 @@ void main() {
               codigo: '753342',
               titulo: 'Napoleão',
               urlCapa: '/oaUS0YJN3cHpvin1BMNmmnv0gRX.jpg',
-              avalicaoUsuario: 6.524,
+              avaliacaoUsuario: 6.524,
               favorito: false,
               assistirMaisTarde: false)));
     });

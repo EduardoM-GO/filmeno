@@ -6,7 +6,7 @@ class Filme extends Conteudo {
     required super.codigo,
     required super.titulo,
     required super.urlCapa,
-    required super.avalicaoUsuario,
+    required super.avaliacaoUsuario,
     required super.favorito,
     required super.assistirMaisTarde,
   }) : super(tipo: TipoConteudo.filme);
@@ -16,7 +16,7 @@ class Filme extends Conteudo {
     String? codigo,
     String? titulo,
     String? urlCapa,
-    double? avalicaoUsuario,
+    double? avaliacaoUsuario,
     bool? favorito,
     bool? assistirMaisTarde,
   }) =>
@@ -24,7 +24,7 @@ class Filme extends Conteudo {
         codigo: codigo ?? this.codigo,
         titulo: titulo ?? this.titulo,
         urlCapa: urlCapa ?? this.urlCapa,
-        avalicaoUsuario: avalicaoUsuario ?? this.avalicaoUsuario,
+        avaliacaoUsuario: avaliacaoUsuario ?? this.avaliacaoUsuario,
         favorito: favorito ?? this.favorito,
         assistirMaisTarde: assistirMaisTarde ?? this.assistirMaisTarde,
       );
@@ -33,7 +33,7 @@ class Filme extends Conteudo {
         codigo: '',
         titulo: '',
         urlCapa: '',
-        avalicaoUsuario: 0,
+        avaliacaoUsuario: 0,
         favorito: false,
         assistirMaisTarde: false,
       );

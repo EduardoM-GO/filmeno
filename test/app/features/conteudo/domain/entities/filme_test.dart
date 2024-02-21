@@ -8,7 +8,7 @@ void main() {
         codigo: '123',
         titulo: 'Filme A',
         urlCapa: '',
-        avalicaoUsuario: 0,
+        avaliacaoUsuario: 0,
         favorito: false,
         assistirMaisTarde: false,
       );
@@ -25,7 +25,7 @@ void main() {
         codigo: '123',
         titulo: 'Filme A',
         urlCapa: '',
-        avalicaoUsuario: 0,
+        avaliacaoUsuario: 0,
         favorito: false,
         assistirMaisTarde: false,
       );

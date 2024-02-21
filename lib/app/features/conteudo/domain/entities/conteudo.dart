@@ -5,7 +5,7 @@ abstract class Conteudo extends Equatable {
   final String codigo;
   final String titulo;
   final String urlCapa;
-  final double avalicaoUsuario;
+  final double avaliacaoUsuario;
   final bool favorito;
   final bool assistirMaisTarde;
   final TipoConteudo tipo;
@@ -14,7 +14,7 @@ abstract class Conteudo extends Equatable {
     required this.codigo,
     required this.titulo,
     required this.urlCapa,
-    required this.avalicaoUsuario,
+    required this.avaliacaoUsuario,
     required this.favorito,
     required this.assistirMaisTarde,
     required this.tipo,
@@ -24,7 +24,7 @@ abstract class Conteudo extends Equatable {
     String? codigo,
     String? titulo,
     String? urlCapa,
-    double? avalicaoUsuario,
+    double? avaliacaoUsuario,
     bool? favorito,
     bool? assistirMaisTarde,
   });
@@ -34,7 +34,7 @@ abstract class Conteudo extends Equatable {
         codigo,
         titulo,
         urlCapa,
-        avalicaoUsuario,
+        avaliacaoUsuario,
         favorito,
         assistirMaisTarde,
         tipo

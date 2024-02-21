@@ -7,7 +7,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('imagem widget - empty', (tester) async {
-    await tester.pumpWidget(ImagemWidget(imagem: Imagem.empty()));
+    await tester.pumpWidget(ImagemWidget(
+      imagem: Imagem.empty(),
+      avaliacaoUsuario: 0.0,
+    ));
     expect(find.byType(Placeholder), findsNWidgets(1));
     expect(find.byType(Image), findsNWidgets(0));
   });
@@ -16,10 +19,11 @@ void main() {
     final imagemByte = File('diagrama_entidades.png').readAsBytesSync();
     await tester.pumpWidget(ImagemWidget(
         imagem: Imagem(
-      dataCriacao: DateTime.now(),
-      url: '1234',
-      imagem: imagemByte,
-    )));
+          dataCriacao: DateTime.now(),
+          url: '1234',
+          imagem: imagemByte,
+        ),
+        avaliacaoUsuario: 0.0));
     expect(find.byType(Placeholder), findsNWidgets(0));
     expect(find.byType(Image), findsNWidgets(1));
   });

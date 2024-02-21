@@ -35,7 +35,7 @@ void main() {
           codigo: '933131',
           titulo: 'Em Ruínas',
           urlCapa: '/vT3xahepzP796ei0NiZIZ6t8vsl.jpg',
-          avalicaoUsuario: 6.925,
+          avaliacaoUsuario: 6.925,
           favorito: false,
           assistirMaisTarde: false),
     );

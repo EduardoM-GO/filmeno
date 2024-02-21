@@ -40,7 +40,9 @@ class _ImagemConteudoComponentState extends State<ImagemConteudoComponent> {
     final state = store.state;
     Widget? child;
     if (state is ImagemConteudoSucessoState) {
-      child = ImagemWidget(imagem: state.imagem);
+      child = ImagemWidget(
+          imagem: state.imagem,
+          avaliacaoUsuario: widget.conteudo.avaliacaoUsuario);
     } else if (state is ImagemConteudoFalhaState) {
       child = TentaNovamenteWidget(
           onTap: () => store.carregaImagem(widget.conteudo));

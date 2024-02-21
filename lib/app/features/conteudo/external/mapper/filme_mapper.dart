@@ -7,7 +7,7 @@ class FilmeMapper implements Mapper<Filme> {
         codigo: map['id'].toString(),
         titulo: map['title'],
         urlCapa: map['poster_path'],
-        avalicaoUsuario: map['vote_average'],
+        avaliacaoUsuario: map['vote_average'],
         favorito: false,
         assistirMaisTarde: false,
       );

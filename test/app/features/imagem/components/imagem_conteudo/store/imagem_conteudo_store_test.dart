@@ -31,7 +31,7 @@ void main() {
         codigo: '',
         titulo: '',
         urlCapa: '',
-        avalicaoUsuario: 0,
+        avaliacaoUsuario: 0,
         favorito: false,
         assistirMaisTarde: false);
   });
