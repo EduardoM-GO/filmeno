@@ -1,7 +1,7 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/external/datasources/filme_datasource_impl.dart';
 import 'package:filmeno/app/shared/domain/entities/configuracao.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resposta_http.dart';
 import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/external/mapper/mapper.dart';
@@ -26,12 +26,12 @@ void main() {
     mapper = _MockMapper();
     datasourceImpl = FilmeDatasourceImpl(httpService, mapper);
     respostaHttp = const RespostaHttp(
-        metadadosHttp: MetadadosHttp(paginaAtual: 1, quantidadePaginaTotal: 6),
+        metadadosHttp: Metadados(paginaAtual: 1, quantidadePaginaTotal: 6),
         resultado: []);
 
     resultado = const ResultadoComMetadados(
         resultado: [],
-        metadados: MetadadosHttp(paginaAtual: 1, quantidadePaginaTotal: 6));
+        metadados: Metadados(paginaAtual: 1, quantidadePaginaTotal: 6));
   });
 
   group('filme datasource impl - buscarEmCartaz -', () {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resposta_http.dart';
 import 'package:filmeno/app/shared/external/mapper/mapper.dart';
 import 'package:filmeno/app/shared/infra/service/cliente_http_service.dart';
@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 class ClienteHttpServiceImpl implements ClienteHttpService {
   final http.Client _client;
-  final Mapper<MetadadosHttp> _metadadosMapper;
+  final Mapper<Metadados> _metadadosMapper;
 
   ClienteHttpServiceImpl(this._client, this._metadadosMapper);
   @override
@@ -71,7 +71,7 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
     final List<T> retorno =
         results.map((e) => mapper.fromMap(Map.from(e))).toList();
 
-    final MetadadosHttp metadadosHttp = _metadadosMapper.fromMap(map);
+    final Metadados metadadosHttp = _metadadosMapper.fromMap(map);
 
     final RespostaHttp<List<T>> respostaHttp =
         RespostaHttp<List<T>>(metadadosHttp: metadadosHttp, resultado: retorno);

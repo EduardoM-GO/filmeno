@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 
 class RespostaHttp<T extends Object> extends Equatable {
-  final MetadadosHttp metadadosHttp;
+  final Metadados metadadosHttp;
   final T resultado;
 
   const RespostaHttp({

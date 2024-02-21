@@ -1,7 +1,7 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/domain/repositories/filme_repository.dart';
 import 'package:filmeno/app/features/conteudo/domain/use_cases/buscar_filmes_populares_use_case.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +28,8 @@ void main() {
     ];
     final resultado = ResultadoComMetadados(
       resultado: filmes,
-      metadados: const MetadadosHttp(paginaAtual: 1, quantidadePaginaTotal: 2),
+      metadados:
+          const Metadados(paginaAtual: 1, quantidadePaginaTotal: 2),
     );
 
     when(() => repository.buscarPopulares(proximaPagina: 1))

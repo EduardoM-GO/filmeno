@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class MetadadosHttp extends Equatable {
+class Metadados extends Equatable {
   final int paginaAtual;
   final int quantidadePaginaTotal;
 
-  const MetadadosHttp(
+  const Metadados(
       {required this.paginaAtual, required this.quantidadePaginaTotal});
 
   int get proximaPagina => paginaAtual + 1;

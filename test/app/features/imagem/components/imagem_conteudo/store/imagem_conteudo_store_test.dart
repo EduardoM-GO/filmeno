@@ -17,13 +17,14 @@ class _MockObterImagemUseCase extends Mock implements ObterImagemUseCase {}
 
 void main() {
   late ObterImagemUseCase useCase;
-  late _MockCallback callback = _MockCallback();
+  late _MockCallback callback;
   late ImagemConteudoStore store;
   late Conteudo conteudo;
 
   setUp(() {
     useCase = _MockObterImagemUseCase();
     store = ImagemConteudoStore(useCase);
+    callback = _MockCallback();
     store.addListener(() => callback.call());
     reset(callback);
     conteudo = const Filme(

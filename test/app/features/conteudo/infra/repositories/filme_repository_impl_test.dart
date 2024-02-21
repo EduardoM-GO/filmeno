@@ -1,7 +1,7 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
 import 'package:filmeno/app/features/conteudo/infra/repositories/filme_repository_impl.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +22,7 @@ void main() {
     repository = FilmeRepositoryImpl(datasource);
     resultado = const ResultadoComMetadados(
         resultado: [],
-        metadados: MetadadosHttp(paginaAtual: 0, quantidadePaginaTotal: 0));
+        metadados: Metadados(paginaAtual: 0, quantidadePaginaTotal: 0));
   });
 
   group('filme repository impl - buscarEmCartaz -', () {

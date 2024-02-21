@@ -3,9 +3,9 @@ import 'dart:typed_data';
 
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/external/mapper/filme_mapper.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados_http.dart';
+import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resposta_http.dart';
-import 'package:filmeno/app/shared/external/mapper/metadados_http_mapper.dart';
+import 'package:filmeno/app/shared/external/mapper/metadados_mapper.dart';
 import 'package:filmeno/app/shared/external/service/cliente_http_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +23,7 @@ void main() {
 
   setUp(() {
     client = _MockClient();
-    serviceImpl = ClienteHttpServiceImpl(client, MetadadosHttpMapper());
+    serviceImpl = ClienteHttpServiceImpl(client, MetadadosMapper());
     mapper = FilmeMapper();
     url = 'https://api.themoviedb.org';
   });
@@ -96,8 +96,8 @@ void main() {
       expect(result, isA<RespostaHttp<List<Filme>>>());
       expect(
           result.metadadosHttp,
-          equals(const MetadadosHttp(
-              paginaAtual: 2, quantidadePaginaTotal: 42438)));
+          equals(
+              const Metadados(paginaAtual: 2, quantidadePaginaTotal: 42438)));
       expect(result.resultado, isA<List<Filme>>());
       expect(result.resultado.length, equals(20));
     });
@@ -122,7 +122,7 @@ void main() {
           result,
           equals(const RespostaHttp<List<Filme>>(
               metadadosHttp:
-                  MetadadosHttp(paginaAtual: 2, quantidadePaginaTotal: 42438),
+                  Metadados(paginaAtual: 2, quantidadePaginaTotal: 42438),
               resultado: [])));
     });
 
@@ -142,7 +142,7 @@ void main() {
 
     expect(result, isA<RespostaHttp<List<Filme>>>());
     expect(result.metadadosHttp,
-        const MetadadosHttp(paginaAtual: 2, quantidadePaginaTotal: 42438));
+        const Metadados(paginaAtual: 2, quantidadePaginaTotal: 42438));
     expect(result.resultado, isA<List<Filme>>());
     expect(result.resultado.length, 20);
   });
