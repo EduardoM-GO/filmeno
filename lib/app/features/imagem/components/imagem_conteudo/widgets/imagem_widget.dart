@@ -16,21 +16,19 @@ class ImagemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget? child;
     if (imagem.isNotEmpty) {
-      child = Image.memory(
-        imagem.imagem,
-        fit: BoxFit.cover,
-      );
+      child = Stack(alignment: Alignment.bottomRight, children: [
+        Image.memory(
+          imagem.imagem,
+          fit: BoxFit.cover,
+        ),
+        PercentualNotaConteudoWidget(avaliacaoUsuario: avaliacaoUsuario)
+      ]);
     }
     child ??= const Placeholder();
 
     return AnimatedSwitcher(
       duration: Configuracao.instance.duracaoAnimacao,
-      child: Stack(
-        children: [
-          child,
-          PercentualNotaConteudoWidget(avaliacaoUsuario: avaliacaoUsuario)
-        ],
-      ),
+      child: child,
     );
   }
 }
