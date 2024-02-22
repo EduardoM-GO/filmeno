@@ -11,20 +11,13 @@ final class ListaConteudoCarregandoState extends ListaConteudoState {}
 
 final class ListaConteudoSucessoState extends ListaConteudoState {
   final List<Conteudo> conteudos;
+  final bool carregamentoCompleto;
 
-  ListaConteudoSucessoState(this.conteudos);
+  ListaConteudoSucessoState(
+      {required this.conteudos, required this.carregamentoCompleto});
 
   @override
-  List<Object?> get props => [conteudos];
+  List<Object?> get props => [conteudos, carregamentoCompleto];
 }
 
 final class ListaConteudoFalhaState extends ListaConteudoState {}
-
-final class ListaConteudoTodosConteudosCarregadosState
-    extends ListaConteudoState {
-  final List<Conteudo> conteudos;
-
-  ListaConteudoTodosConteudosCarregadosState(this.conteudos);
-  @override
-  List<Object?> get props => [conteudos];
-}

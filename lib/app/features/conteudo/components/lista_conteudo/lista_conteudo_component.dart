@@ -1,5 +1,7 @@
 import 'package:filmeno/app/features/conteudo/components/lista_conteudo/store/lista_conteudo_store.dart';
+import 'package:filmeno/app/features/conteudo/domain/entities/conteudo.dart';
 import 'package:filmeno/app/features/imagem/components/imagem_conteudo/imagem_conteudo_component.dart';
+import 'package:filmeno/app/shared/widgets/lista_view_carregamento_sobre_demanda_widget.dart';
 import 'package:filmeno/app/shared/widgets/tenta_novamente_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -35,14 +37,12 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
     final state = store.state;
     Widget? child;
     if (state is ListaConteudoSucessoState) {
-      //TODO: implementar Lista infinita
-      child = ListView.builder(
+      child = ListaViewCarregamentoSobreDemandaWidget<Conteudo>(
         scrollDirection: Axis.horizontal,
-        itemCount: state.conteudos.length,
-        itemBuilder: (context, index) {
-          final conteudo = state.conteudos[index];
-          return ImagemConteudoComponent(conteudo: conteudo);
-        },
+        dados: state.conteudos,
+        carregamentoCompleto: state.carregamentoCompleto,
+        cardDados: (conteudo) => ImagemConteudoComponent(conteudo: conteudo),
+        carregarMaisDados: store.buscarConteudos,
       );
     } else if (state is ListaConteudoFalhaState) {
       child = TentaNovamenteWidget(onTap: store.buscarConteudos);

@@ -24,7 +24,8 @@ class ListaConteudoStore extends Store<ListaConteudoState> {
 
   Future<void> buscarConteudos() async {
     if (_todosConteudosCarregados) {
-      emit(ListaConteudoTodosConteudosCarregadosState(_conteudos));
+      emit(ListaConteudoSucessoState(
+          conteudos: _conteudos, carregamentoCompleto: true));
       return;
     }
 
@@ -41,10 +42,14 @@ class ListaConteudoStore extends Store<ListaConteudoState> {
         _conteudos.addAll(conteudos);
 
         if (_todosConteudosCarregados) {
-          return ListaConteudoTodosConteudosCarregadosState(_conteudos);
+          return ListaConteudoSucessoState(
+              conteudos: _conteudos, carregamentoCompleto: true);
         }
 
-        return ListaConteudoSucessoState(_conteudos);
+        return ListaConteudoSucessoState(
+          conteudos: _conteudos,
+          carregamentoCompleto: _conteudos.isEmpty,
+        );
       },
       (failure) => ListaConteudoFalhaState(),
     ));

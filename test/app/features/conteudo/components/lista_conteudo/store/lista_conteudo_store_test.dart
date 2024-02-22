@@ -42,8 +42,12 @@ void main() {
           )));
 
       await listaConteudoStore.buscarConteudos();
-      expect(listaConteudoStore.state,
-          equals(ListaConteudoTodosConteudosCarregadosState(filmes)));
+      expect(
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+            conteudos: filmes,
+            carregamentoCompleto: true,
+          )));
       verify(() => callback.call()).called(2);
     });
 
@@ -58,7 +62,11 @@ void main() {
 
       await listaConteudoStore.buscarConteudos();
       expect(
-          listaConteudoStore.state, equals(ListaConteudoSucessoState(filmes)));
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+            conteudos: filmes,
+            carregamentoCompleto: false,
+          )));
       verify(() => callback.call()).called(2);
     });
 
@@ -73,7 +81,9 @@ void main() {
 
       await listaConteudoStore.buscarConteudos();
       expect(
-          listaConteudoStore.state, equals(ListaConteudoSucessoState(filmes)));
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+              conteudos: filmes, carregamentoCompleto: false)));
       verify(() => callback.call()).called(2);
 
       when(
@@ -87,8 +97,8 @@ void main() {
       await listaConteudoStore.buscarConteudos();
       expect(
           listaConteudoStore.state,
-          equals(ListaConteudoTodosConteudosCarregadosState(
-              [...filmes, ...filmes])));
+          equals(ListaConteudoSucessoState(
+              conteudos: [...filmes, ...filmes], carregamentoCompleto: true)));
       verify(() => callback.call()).called(2);
     });
 
@@ -103,15 +113,36 @@ void main() {
 
       await listaConteudoStore.buscarConteudos();
 
-      expect(listaConteudoStore.state,
-          equals(ListaConteudoTodosConteudosCarregadosState(filmes)));
+      expect(
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+              conteudos: filmes, carregamentoCompleto: true)));
       verify(() => callback.call()).called(2);
 
       await listaConteudoStore.buscarConteudos();
 
-      expect(listaConteudoStore.state,
-          equals(ListaConteudoTodosConteudosCarregadosState(filmes)));
+      expect(
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+              conteudos: filmes, carregamentoCompleto: true)));
       verifyNever(() => callback.call()).called(0);
+    });
+
+    test('Retorno vazio', () async {
+      when(
+        () => useCase.call(proximaPagina: null),
+      ).thenAnswer((invocation) async => const Success(ResultadoComMetadados(
+            metadados: Metadados(paginaAtual: 1, quantidadePaginaTotal: 2),
+            resultado: [],
+          )));
+
+      await listaConteudoStore.buscarConteudos();
+
+      expect(
+          listaConteudoStore.state,
+          equals(ListaConteudoSucessoState(
+              conteudos: const [], carregamentoCompleto: true)));
+      verify(() => callback.call()).called(2);
     });
   });
 
