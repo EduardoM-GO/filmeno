@@ -51,6 +51,7 @@ Pontos a serem levados em consideração antes de introduzir uma nova feature:
 - url_launcher: Para abrir link.
 - path_provider: Para obter o local do cache.
 - equatable: usado para fazer comparação dos objetos.
+- intl: usado para formatação de valores
 
 # Package externos (Dev)
 
