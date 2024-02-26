@@ -30,8 +30,6 @@ class _ListaViewCarregamentoSobreDemandaWidgetState<T extends Object>
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      print(
-          'ScrollController: ${_scrollController.position.pixels} - ${_scrollController.position.maxScrollExtent}');
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
         widget.carregarMaisDados();
