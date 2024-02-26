@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  //Todo Corrigir teste
   testWidgets(
       'Teste de renderização da ListaViewCarregamentoSobreDemandaWidget',
       (WidgetTester tester) async {
@@ -22,8 +21,31 @@ void main() {
     expect(find.text('Item 1'), findsOneWidget);
     expect(find.text('Item 2'), findsOneWidget);
     expect(find.text('Item 3'), findsOneWidget);
+  });
 
-    // Verifique se o indicador de carregamento não está presente, já que todos os dados foram carregados
-    // expect(find.byType(CircularProgressIndicator), findsNothing);
+  testWidgets(
+      'Teste de renderização da ListaViewCarregamentoSobreDemandaWidget - scroll horizontal',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ListaViewCarregamentoSobreDemandaWidget<String>(
+          dados: const ['Item 1', 'Item 2', 'Item 3'],
+          carregamentoCompleto: false,
+          cardDados: (String dado) => Text(dado),
+          carregarMaisDados: () {},
+          scrollDirection: Axis.horizontal,
+        ),
+      ),
+    );
+
+    expect(find.text('Item 1'), findsOneWidget);
+    expect(find.text('Item 2'), findsOneWidget);
+    expect(find.text('Item 3'), findsOneWidget);
+
+    await tester.fling(find.byType(ListView), const Offset(-200, 0), 3000);
+
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }

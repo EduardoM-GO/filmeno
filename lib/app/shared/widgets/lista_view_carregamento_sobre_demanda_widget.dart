@@ -17,12 +17,12 @@ class ListaViewCarregamentoSobreDemandaWidget<T extends Object>
   });
 
   @override
-  State<ListaViewCarregamentoSobreDemandaWidget> createState() =>
-      _ListaViewCarregamentoSobreDemandaWidgetState();
+  State<ListaViewCarregamentoSobreDemandaWidget<T>> createState() =>
+      _ListaViewCarregamentoSobreDemandaWidgetState<T>();
 }
 
-class _ListaViewCarregamentoSobreDemandaWidgetState
-    extends State<ListaViewCarregamentoSobreDemandaWidget> {
+class _ListaViewCarregamentoSobreDemandaWidgetState<T extends Object>
+    extends State<ListaViewCarregamentoSobreDemandaWidget<T>> {
   late final ScrollController _scrollController;
 
   @override
@@ -30,7 +30,9 @@ class _ListaViewCarregamentoSobreDemandaWidgetState
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
+      print(
+          'ScrollController: ${_scrollController.position.pixels} - ${_scrollController.position.maxScrollExtent}');
+      if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
         widget.carregarMaisDados();
       }
@@ -52,7 +54,7 @@ class _ListaViewCarregamentoSobreDemandaWidgetState
         itemCount: widget.dados.length + (widget.carregamentoCompleto ? 0 : 1),
         itemBuilder: (context, index) {
           if (index < widget.dados.length) {
-            final dado = widget.dados[index];
+            final T dado = widget.dados[index];
             return widget.cardDados(dado);
           } else {
             return const Center(child: CircularProgressIndicator());
