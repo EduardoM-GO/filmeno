@@ -37,12 +37,15 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
     final state = store.state;
     Widget? child;
     if (state is ListaConteudoSucessoState) {
-      child = ListaViewCarregamentoSobreDemandaWidget<Conteudo>(
-        scrollDirection: Axis.horizontal,
-        dados: state.conteudos,
-        carregamentoCompleto: state.carregamentoCompleto,
-        cardDados: (conteudo) => ImagemConteudoComponent(conteudo: conteudo),
-        carregarMaisDados: store.buscarConteudos,
+      child = SizedBox(
+        height: 200,
+        child: ListaViewCarregamentoSobreDemandaWidget<Conteudo>(
+          scrollDirection: Axis.horizontal,
+          dados: state.conteudos,
+          carregamentoCompleto: state.carregamentoCompleto,
+          cardDados: (conteudo) => ImagemConteudoComponent(conteudo: conteudo),
+          carregarMaisDados: store.buscarConteudos,
+        ),
       );
     } else if (state is ListaConteudoFalhaState) {
       child = TentaNovamenteWidget(onTap: store.buscarConteudos);

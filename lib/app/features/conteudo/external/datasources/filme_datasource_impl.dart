@@ -13,12 +13,17 @@ class FilmeDatasourceImpl implements FilmeDatasource {
 
   FilmeDatasourceImpl(this._httpService, this._mapper);
 
+  Map<String, String> get _mapHeaders => {
+        'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
+      };
+
   @override
   Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarEmCartaz(
       {int? proximaPagina}) async {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
+          headers: _mapHeaders,
           mapper: _mapper,
           pagina: proximaPagina);
 
@@ -42,6 +47,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+          headers: _mapHeaders,
           mapper: _mapper,
           pagina: proximaPagina);
 
@@ -65,6 +71,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/popular',
+          headers: _mapHeaders,
           mapper: _mapper,
           pagina: proximaPagina);
 
@@ -87,6 +94,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
+          headers: _mapHeaders,
           mapper: _mapper,
           pagina: proximaPagina);
 
