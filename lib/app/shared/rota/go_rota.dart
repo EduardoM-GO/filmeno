@@ -14,7 +14,7 @@ class GoRota extends GoRoute {
   }) : super(
           name: path,
           builder: (context, state) {
-            if (injector != null) {
+            if (injector != null && !GetIt.I.hasScope(path)) {
               GetIt.I.pushNewScope(init: injector, scopeName: path);
             }
             return builder(context, state);
