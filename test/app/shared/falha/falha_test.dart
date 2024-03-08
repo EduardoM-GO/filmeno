@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Falha - Aviso', () {
-    const Falha aviso = Aviso(
+    final Falha aviso = Aviso(
         mensagemParaUsuario: 'mensagemParaUsuario', tagMetodo: 'tagMetodo');
 
     expect(aviso, isA<Aviso>());
@@ -11,7 +11,7 @@ void main() {
     expect(aviso.tagMetodo, equals('tagMetodo'));
     expect(
         aviso.props,
-        equals(const Aviso(
+        equals(Aviso(
                 mensagemParaUsuario: 'mensagemParaUsuario',
                 tagMetodo: 'tagMetodo')
             .props));

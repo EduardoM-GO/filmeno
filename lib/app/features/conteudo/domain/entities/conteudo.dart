@@ -5,7 +5,7 @@ abstract class Conteudo extends Equatable {
   final String codigo;
   final String titulo;
   final String urlCapa;
-  final double avaliacaoUsuario;
+  final double _avaliacaoUsuario;
   final bool favorito;
   final bool assistirMaisTarde;
   final TipoConteudo tipo;
@@ -14,11 +14,11 @@ abstract class Conteudo extends Equatable {
     required this.codigo,
     required this.titulo,
     required this.urlCapa,
-    required this.avaliacaoUsuario,
+    required double avaliacaoUsuario,
     required this.favorito,
     required this.assistirMaisTarde,
     required this.tipo,
-  });
+  }) : _avaliacaoUsuario = avaliacaoUsuario;
 
   Conteudo copyWith({
     String? codigo,
@@ -29,12 +29,14 @@ abstract class Conteudo extends Equatable {
     bool? assistirMaisTarde,
   });
 
+  double get avaliacaoUsuario => _avaliacaoUsuario / 10;
+
   @override
   List<Object?> get props => [
         codigo,
         titulo,
         urlCapa,
-        avaliacaoUsuario,
+        _avaliacaoUsuario,
         favorito,
         assistirMaisTarde,
         tipo

@@ -6,8 +6,13 @@ import 'package:filmeno/app/shared/widgets/tenta_novamente_widget.dart';
 import 'package:flutter/material.dart';
 
 class ListaConteudoComponent extends StatefulWidget {
+  final String titulo;
   final ListaConteudoUseCase useCase;
-  const ListaConteudoComponent({super.key, required this.useCase});
+  const ListaConteudoComponent({
+    super.key,
+    required this.titulo,
+    required this.useCase,
+  });
 
   @override
   State<ListaConteudoComponent> createState() => _ListaConteudoComponentState();
@@ -44,18 +49,18 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
           dados: state.conteudos,
           carregamentoCompleto: state.carregamentoCompleto,
           cardDados: (conteudo) => ImagemConteudoComponent(conteudo: conteudo),
-          carregarMaisDados: store.buscarConteudos,
+          carregarMaisDados: store.buscarMaisConteudos,
         ),
       );
     } else if (state is ListaConteudoFalhaState) {
       child = TentaNovamenteWidget(onTap: store.buscarConteudos);
     } else {
-      child = const CircularProgressIndicator();
+      child = const Center(child: CircularProgressIndicator());
     }
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: child,
+      child: ListTile(title: Text(widget.titulo), subtitle: child),
     );
   }
 }

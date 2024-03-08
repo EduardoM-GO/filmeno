@@ -14,7 +14,8 @@ final class ListaConteudoSucessoState extends ListaConteudoState {
   final bool carregamentoCompleto;
 
   ListaConteudoSucessoState(
-      {required this.conteudos, required this.carregamentoCompleto});
+      {required List<Conteudo> conteudos, required this.carregamentoCompleto})
+      : conteudos = conteudos.toList();
 
   @override
   List<Object?> get props => [conteudos, carregamentoCompleto];
