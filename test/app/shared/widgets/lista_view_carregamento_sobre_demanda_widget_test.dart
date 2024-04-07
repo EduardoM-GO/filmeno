@@ -42,7 +42,7 @@ void main() {
     expect(find.text('Item 2'), findsOneWidget);
     expect(find.text('Item 3'), findsOneWidget);
 
-    await tester.fling(find.byType(ListView), const Offset(-200, 0), 3000);
+    await tester.fling(find.byType(AnimatedList), const Offset(-200, 0), 3000);
 
     await tester.pump();
 

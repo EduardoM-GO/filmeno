@@ -1,7 +1,5 @@
 import 'package:filmeno/app/features/conteudo/components/lista_conteudo/store/lista_conteudo_store.dart';
-import 'package:filmeno/app/features/conteudo/domain/entities/conteudo.dart';
-import 'package:filmeno/app/features/imagem/components/imagem_conteudo/imagem_conteudo_component.dart';
-import 'package:filmeno/app/shared/widgets/lista_view_carregamento_sobre_demanda_widget.dart';
+import 'package:filmeno/app/features/conteudo/components/widgets/list_view_conteudo_widget.dart';
 import 'package:filmeno/app/shared/widgets/tenta_novamente_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -42,16 +40,7 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
     final state = store.state;
     Widget? child;
     if (state is ListaConteudoSucessoState) {
-      child = SizedBox(
-        height: 200,
-        child: ListaViewCarregamentoSobreDemandaWidget<Conteudo>(
-          scrollDirection: Axis.horizontal,
-          dados: state.conteudos,
-          carregamentoCompleto: state.carregamentoCompleto,
-          cardDados: (conteudo) => ImagemConteudoComponent(conteudo: conteudo),
-          carregarMaisDados: store.buscarMaisConteudos,
-        ),
-      );
+      child = ListViewConteudoWidget(conteudos: state.conteudos);
     } else if (state is ListaConteudoFalhaState) {
       child = TentaNovamenteWidget(onTap: store.buscarConteudos);
     } else {
@@ -60,7 +49,9 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: ListTile(title: Text(widget.titulo), subtitle: child),
+      child: ListTile(
+          title: Text(widget.titulo),
+          subtitle: SizedBox(height: 200, child: child)),
     );
   }
 }

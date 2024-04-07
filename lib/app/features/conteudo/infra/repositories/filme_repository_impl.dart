@@ -1,7 +1,6 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/domain/repositories/filme_repository.dart';
 import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
-import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -11,22 +10,18 @@ class FilmeRepositoryImpl implements FilmeRepository {
   FilmeRepositoryImpl(this._datasource);
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarEmCartaz(
-          {int? proximaPagina}) =>
-      _datasource.buscarEmCartaz(proximaPagina: proximaPagina);
+  Future<Result<List<Filme>, Falha>> buscarEmCartaz() =>
+      _datasource.buscarEmCartaz();
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMelhoresAvalidados({int? proximaPagina}) =>
-          _datasource.buscarMelhoresAvalidados(proximaPagina: proximaPagina);
+  Future<Result<List<Filme>, Falha>> buscarMelhoresAvalidados() =>
+      _datasource.buscarMelhoresAvalidados();
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarPopulares(
-          {int? proximaPagina}) =>
-      _datasource.buscarPopulares(proximaPagina: proximaPagina);
+  Future<Result<List<Filme>, Falha>> buscarPopulares() =>
+      _datasource.buscarPopulares();
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarProximasEstreias({int? proximaPagina}) =>
-          _datasource.buscarProximasEstreias(proximaPagina: proximaPagina);
+  Future<Result<List<Filme>, Falha>> buscarProximasEstreias() =>
+      _datasource.buscarProximasEstreias();
 }

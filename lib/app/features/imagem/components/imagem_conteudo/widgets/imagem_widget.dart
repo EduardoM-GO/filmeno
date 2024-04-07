@@ -28,7 +28,7 @@ class ImagemWidget extends StatelessWidget {
 
     return AnimatedSwitcher(
       duration: Configuracao.instance.duracaoAnimacao,
-      child: child,
+      child: SizedBox(height: 250, width: 150, child: child),
     );
   }
 }

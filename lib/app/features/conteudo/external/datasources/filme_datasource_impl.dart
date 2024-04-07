@@ -1,10 +1,10 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
 import 'package:filmeno/app/shared/domain/entities/configuracao.dart';
-import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/external/mapper/mapper.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:filmeno/app/shared/infra/service/cliente_http_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FilmeDatasourceImpl implements FilmeDatasource {
@@ -12,22 +12,20 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   final Mapper<Filme> _mapper;
 
   FilmeDatasourceImpl(this._httpService, this._mapper);
-
-  Map<String, String> get _mapHeaders => {
+  @visibleForTesting
+  Map<String, String> get mapHeaders => {
         'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
       };
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarEmCartaz(
-      {int? proximaPagina}) async {
+  Future<Result<List<Filme>, Falha>> buscarEmCartaz() async {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
-          headers: _mapHeaders,
-          mapper: _mapper,
-          pagina: proximaPagina);
+          headers: mapHeaders,
+          mapper: _mapper);
 
-      final result = ResultadoComMetadados.fromRespostaHttp(response);
+      final result = response.resultado;
 
       return Success(result);
     } catch (exception, stack) {
@@ -42,16 +40,15 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   }
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarMelhoresAvalidados({int? proximaPagina}) async {
+  Future<Result<List<Filme>, Falha>> buscarMelhoresAvalidados() async {
     try {
       final response = await _httpService.getList<Filme>(
-          url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
-          headers: _mapHeaders,
-          mapper: _mapper,
-          pagina: proximaPagina);
+        url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+        headers: mapHeaders,
+        mapper: _mapper,
+      );
 
-      final result = ResultadoComMetadados.fromRespostaHttp(response);
+      final result = response.resultado;
 
       return Success(result);
     } catch (exception, stack) {
@@ -66,16 +63,15 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   }
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>> buscarPopulares(
-      {int? proximaPagina}) async {
+  Future<Result<List<Filme>, Falha>> buscarPopulares() async {
     try {
       final response = await _httpService.getList<Filme>(
-          url: '${Configuracao.instance.apiUrlBase}/movie/popular',
-          headers: _mapHeaders,
-          mapper: _mapper,
-          pagina: proximaPagina);
+        url: '${Configuracao.instance.apiUrlBase}/movie/popular',
+        headers: mapHeaders,
+        mapper: _mapper,
+      );
 
-      final result = ResultadoComMetadados.fromRespostaHttp(response);
+      final result = response.resultado;
 
       return Success(result);
     } catch (exception, stack) {
@@ -89,16 +85,14 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   }
 
   @override
-  Future<Result<ResultadoComMetadados<List<Filme>>, Falha>>
-      buscarProximasEstreias({int? proximaPagina}) async {
+  Future<Result<List<Filme>, Falha>> buscarProximasEstreias() async {
     try {
       final response = await _httpService.getList<Filme>(
           url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
-          headers: _mapHeaders,
-          mapper: _mapper,
-          pagina: proximaPagina);
+          headers: mapHeaders,
+          mapper: _mapper);
 
-      final result = ResultadoComMetadados.fromRespostaHttp(response);
+      final result = response.resultado;
 
       return Success(result);
     } catch (exception, stack) {

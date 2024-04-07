@@ -1,8 +1,6 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/domain/repositories/filme_repository.dart';
 import 'package:filmeno/app/features/conteudo/domain/use_cases/buscar_filmes_proximas_estreias_use_case.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados.dart';
-import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -22,29 +20,23 @@ void main() {
   });
 
   test('buscar filmes próximas estreias use case - Ok', () async {
-    final filmes = [
-      Filme.empty().copyWith(codigo: '1', titulo: 'Filme 1'),
-      Filme.empty().copyWith(codigo: '2', titulo: 'Filme 2'),
-    ];
-    final resultado = ResultadoComMetadados(
-      resultado: filmes,
-      metadados: const Metadados(paginaAtual: 1, quantidadePaginaTotal: 2),
-    );
+    final List<Filme> filmes = [Filme.empty()];
 
-    when(() => repository.buscarProximasEstreias(proximaPagina: 1))
-        .thenAnswer((_) async => Success(resultado));
+    when(() => repository.buscarProximasEstreias())
+        .thenAnswer((_) async => Success(filmes));
 
-    final result = await useCase(proximaPagina: 1);
+    final result = await useCase.call();
 
-    expect(result.isSuccess(), true);
-    expect(result.getOrThrow(), resultado);
+    expect(result.isSuccess(), equals(true));
+    expect(result.getOrThrow(), isA<List<Filme>>());
+    expect(result.getOrThrow(), equals(filmes));
   });
 
   test('buscar filmes próximas estreias use case - Erro', () async {
-    when(() => repository.buscarProximasEstreias(proximaPagina: 1))
+    when(() => repository.buscarProximasEstreias())
         .thenAnswer((_) async => Failure(avisoMock));
 
-    final result = await useCase(proximaPagina: 1);
+    final result = await useCase();
 
     expect(result.isError(), true);
     expect(result.exceptionOrNull(), isA<Falha>());

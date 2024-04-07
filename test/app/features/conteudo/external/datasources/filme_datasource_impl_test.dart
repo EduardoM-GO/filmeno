@@ -3,7 +3,6 @@ import 'package:filmeno/app/features/conteudo/external/datasources/filme_datasou
 import 'package:filmeno/app/shared/domain/entities/configuracao.dart';
 import 'package:filmeno/app/shared/domain/entities/metadados.dart';
 import 'package:filmeno/app/shared/domain/entities/resposta_http.dart';
-import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/external/mapper/mapper.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:filmeno/app/shared/infra/service/cliente_http_service.dart';
@@ -19,7 +18,7 @@ void main() {
   late Mapper<Filme> mapper;
   late FilmeDatasourceImpl datasourceImpl;
   late RespostaHttp<List<Filme>> respostaHttp;
-  late ResultadoComMetadados<List<Filme>> resultado;
+  late List<Filme> resultado;
 
   setUp(() {
     httpService = _MockClienteHttpService();
@@ -29,9 +28,7 @@ void main() {
         metadadosHttp: Metadados(paginaAtual: 1, quantidadePaginaTotal: 6),
         resultado: []);
 
-    resultado = const ResultadoComMetadados(
-        resultado: [],
-        metadados: Metadados(paginaAtual: 1, quantidadePaginaTotal: 6));
+    resultado = [];
   });
 
   group('filme datasource impl - buscarEmCartaz -', () {
@@ -39,6 +36,7 @@ void main() {
       when(
         () => httpService.getList(
             url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
+            headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
@@ -46,7 +44,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -73,6 +71,7 @@ void main() {
       when(
         () => httpService.getList(
             url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+            headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
@@ -80,7 +79,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -107,6 +106,7 @@ void main() {
       when(
         () => httpService.getList(
             url: '${Configuracao.instance.apiUrlBase}/movie/popular',
+            headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
@@ -114,7 +114,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -141,6 +141,7 @@ void main() {
       when(
         () => httpService.getList(
             url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
+            headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
@@ -148,7 +149,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });

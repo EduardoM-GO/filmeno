@@ -1,8 +1,6 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
 import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
 import 'package:filmeno/app/features/conteudo/infra/repositories/filme_repository_impl.dart';
-import 'package:filmeno/app/shared/domain/entities/metadados.dart';
-import 'package:filmeno/app/shared/domain/entities/resultado_com_metadados.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,14 +13,12 @@ class _MockFilmeDatasource extends Mock implements FilmeDatasource {}
 void main() {
   late FilmeDatasource datasource;
   late FilmeRepositoryImpl repository;
-  late ResultadoComMetadados<List<Filme>> resultado;
+  late List<Filme> resultado;
 
   setUp(() {
     datasource = _MockFilmeDatasource();
     repository = FilmeRepositoryImpl(datasource);
-    resultado = const ResultadoComMetadados(
-        resultado: [],
-        metadados: Metadados(paginaAtual: 0, quantidadePaginaTotal: 0));
+    resultado = [];
   });
 
   group('filme repository impl - buscarEmCartaz -', () {
@@ -34,7 +30,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -62,7 +58,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -90,7 +86,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -118,7 +114,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<ResultadoComMetadados<List<Filme>>>());
+          isA<List<Filme>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
