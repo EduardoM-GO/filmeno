@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('T'),
+        title: const Text('Filmeno'),
       ),
       body: ListView(
         children: [
@@ -21,14 +21,17 @@ class HomePage extends StatelessWidget {
             titulo: 'Em cartaz',
             useCase: GetIt.I.get<BuscarFilmesEmCartazUseCase>().call,
           ),
+          const SizedBox(height: 16),
           ListaConteudoComponent(
             titulo: 'Melhores avaliados',
             useCase: GetIt.I.get<BuscarFilmesMelhoresAvalidadosUseCase>().call,
           ),
+          const SizedBox(height: 16),
           ListaConteudoComponent(
             titulo: 'Populares',
             useCase: GetIt.I.get<BuscarFilmesPopularesUseCase>().call,
           ),
+          const SizedBox(height: 16),
           ListaConteudoComponent(
             titulo: 'Proxima estreia',
             useCase: GetIt.I.get<BuscarFilmesProximasEstreiasUseCase>().call,

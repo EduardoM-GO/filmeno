@@ -48,10 +48,15 @@ class _ListaConteudoComponentState extends State<ListaConteudoComponent> {
     }
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: ListTile(
-          title: Text(widget.titulo),
-          subtitle: SizedBox(height: 200, child: child)),
-    );
+        duration: const Duration(milliseconds: 300),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(widget.titulo, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 8),
+            SizedBox(height: 200, child: child),
+          ],
+        ));
   }
 }

@@ -10,7 +10,6 @@ import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource
 import 'package:filmeno/app/features/conteudo/infra/repositories/filme_repository_impl.dart';
 import 'package:filmeno/app/features/home/page/home_page.dart';
 import 'package:filmeno/app/features/imagem/domain/repositories/imagem_repository.dart';
-import 'package:filmeno/app/features/imagem/domain/use_cases/obter_imagem_use_case.dart';
 import 'package:filmeno/app/features/imagem/external/cache/imagem_cache_impl.dart';
 import 'package:filmeno/app/features/imagem/external/datasources/imagem_datasource_impl.dart';
 import 'package:filmeno/app/features/imagem/infra/cache/imagem_cache.dart';

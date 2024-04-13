@@ -14,8 +14,6 @@ List<GoRota> get rotas => [
               () => ImagemDatasourceImpl(getIt.get()));
           getIt.registerFactory<ImagemRepository>(
               () => ImagemRepositoryImpl(getIt.get(), getIt.get()));
-          getIt.registerFactory<ObterImagemUseCase>(
-              () => ObterImagemUseCaseImpl(getIt.get()));
 
           ///Filmes
           getIt.registerSingleton<Mapper<Filme>>(FilmeMapper());
@@ -23,15 +21,17 @@ List<GoRota> get rotas => [
               () => FilmeDatasourceImpl(getIt.get(), getIt.get()));
           getIt.registerFactory<FilmeRepository>(
               () => FilmeRepositoryImpl(getIt.get()));
-              
+
           getIt.registerFactory<BuscarFilmesEmCartazUseCase>(
-              () => BuscarFilmesEmCartazUseCaseImpl(getIt.get()));
-          getIt.registerFactory<BuscarFilmesMelhoresAvalidadosUseCase>(
-              () => BuscarFilmesMelhoresAvalidadosUseCaseImpl(getIt.get()));
+              () => BuscarFilmesEmCartazUseCaseImpl(getIt.get(), getIt.get()));
+          getIt.registerFactory<BuscarFilmesMelhoresAvalidadosUseCase>(() =>
+              BuscarFilmesMelhoresAvalidadosUseCaseImpl(
+                  getIt.get(), getIt.get()));
           getIt.registerFactory<BuscarFilmesPopularesUseCase>(
-              () => BuscarFilmesPopularesUseCaseImpl(getIt.get()));
-          getIt.registerFactory<BuscarFilmesProximasEstreiasUseCase>(
-              () => BuscarFilmesProximasEstreiasUseCaseImpl(getIt.get()));
+              () => BuscarFilmesPopularesUseCaseImpl(getIt.get(), getIt.get()));
+          getIt.registerFactory<BuscarFilmesProximasEstreiasUseCase>(() =>
+              BuscarFilmesProximasEstreiasUseCaseImpl(
+                  getIt.get(), getIt.get()));
         },
         builder: (context, state) => const HomePage(),
       ),

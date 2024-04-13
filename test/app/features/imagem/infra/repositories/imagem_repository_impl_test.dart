@@ -15,6 +15,8 @@ class _MockImagemCache extends Mock implements ImagemCache {}
 
 class _MockImagemDatasource extends Mock implements ImagemDatasource {}
 
+class _FakeImagem extends Fake implements Imagem {}
+
 void main() {
   late ImagemCache cache;
   late ImagemDatasource datasource;
@@ -57,95 +59,98 @@ void main() {
   group('imagem repository impl - obterImagem -', () {
     late String url;
 
-    setUp(() => url = 'url');
+    setUp(() {
+      url = 'url';
+      registerFallbackValue(_FakeImagem());
+    });
     test('Ok', () async {
       when(
         () => cache.obterImagem(url),
       ).thenAnswer((invocation) async => Success(Imagem.empty()));
+
+      when(
+        () => datasource.buscarImagem(url),
+      ).thenAnswer((invocation) async => Success(Uint8List(0)));
+
+      when(
+        () => cache.salvar(any<Imagem>()),
+      ).thenAnswer((invocation) async => const Success(unit));
 
       final result = await repository.obterImagem(url);
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
           isA<Imagem>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(Imagem.empty()));
     });
 
-    test('Erro', () async {
-      when(
-        () => cache.obterImagem(url),
-      ).thenAnswer((invocation) async => Failure(avisoMock));
+    group('Erro -', () {
+      test('ObterImagem', () async {
+        when(
+          () => cache.obterImagem(url),
+        ).thenAnswer((invocation) async => Failure(avisoMock));
 
-      final result = await repository.obterImagem(url);
+        final result = await repository.obterImagem(url);
 
-      expect(result.isError(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Falha>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(avisoMock));
+        expect(result.isError(), equals(true));
+        expect(result.fold((success) => success, (failure) => failure),
+            isA<Falha>());
+        expect(result.fold((success) => success, (failure) => failure),
+            equals(avisoMock));
+      });
+
+      test('BuscarImagem', () async {
+        when(
+          () => cache.obterImagem(url),
+        ).thenAnswer((invocation) async => Success(Imagem.empty()));
+
+        when(
+          () => datasource.buscarImagem(url),
+        ).thenAnswer((invocation) async => Failure(avisoMock));
+
+        final result = await repository.obterImagem(url);
+
+        expect(result.isError(), equals(true));
+        expect(result.fold((success) => success, (failure) => failure),
+            isA<Falha>());
+        expect(result.fold((success) => success, (failure) => failure),
+            equals(avisoMock));
+      });
+
+  
     });
   });
 
-  group('imagem repository impl - salvar -', () {
-    late Imagem imagem;
-
-    setUp(() => imagem = Imagem.empty());
+  group('imagem repository impl - salvarEmCache -', () {
     test('Ok', () async {
+      final imagem = Imagem(
+        dataCriacao: DateTime.now(),
+        url: 'url',
+        imagem: Uint8List(0),
+      );
+
       when(
         () => cache.salvar(imagem),
       ).thenAnswer((invocation) async => const Success(unit));
 
-      final result = await repository.salvar(imagem);
+      final result = await repository.salvarEmCache(imagem);
 
-      expect(result.isSuccess(), equals(true));
-      expect(
-          result.fold((success) => success, (failure) => failure), isA<Unit>());
+      expect(result, equals(imagem));
     });
 
     test('Erro', () async {
+      final imagem = Imagem(
+        dataCriacao: DateTime.now(),
+        url: 'url',
+        imagem: Uint8List(0),
+      );
+
       when(
         () => cache.salvar(imagem),
       ).thenAnswer((invocation) async => Failure(avisoMock));
 
-      final result = await repository.salvar(imagem);
+      final result = await repository.salvarEmCache(imagem);
 
-      expect(result.isError(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Falha>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(avisoMock));
-    });
-  });
-
-  group('imagem repository impl - buscarImagemApi -', () {
-    late String url;
-
-    setUp(() => url = 'url');
-    test('Ok', () async {
-      when(
-        () => datasource.buscarImagem(url),
-      ).thenAnswer((invocation) async => Success(Uint8List(0)));
-
-      final result = await repository.buscarImagemApi(url);
-
-      expect(result.isSuccess(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Uint8List>());
-    });
-
-    test('Erro', () async {
-      when(
-        () => datasource.buscarImagem(url),
-      ).thenAnswer((invocation) async => Failure(avisoMock));
-
-      final result = await repository.buscarImagemApi(url);
-
-      expect(result.isError(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Falha>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(avisoMock));
+      expect(result, equals(imagem));
     });
   });
 }

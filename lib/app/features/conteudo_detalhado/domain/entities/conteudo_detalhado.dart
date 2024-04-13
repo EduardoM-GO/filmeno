@@ -1,5 +1,6 @@
 import 'package:filmeno/app/features/conteudo/domain/entities/conteudo.dart';
 import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/plataforma_streaming.dart';
+import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 
 class ConteudoDetalhado extends Conteudo {
   final String faixaEtaria;
@@ -14,6 +15,7 @@ class ConteudoDetalhado extends Conteudo {
     required super.codigo,
     required super.titulo,
     required super.urlCapa,
+    super.imagemCapa,
     required super.avaliacaoUsuario,
     required super.favorito,
     required super.assistirMaisTarde,
@@ -32,6 +34,7 @@ class ConteudoDetalhado extends Conteudo {
     String? codigo,
     String? titulo,
     String? urlCapa,
+    Imagem? imagemCapa,
     double? avaliacaoUsuario,
     bool? favorito,
     bool? assistirMaisTarde,
@@ -47,6 +50,7 @@ class ConteudoDetalhado extends Conteudo {
         codigo: codigo ?? this.codigo,
         titulo: titulo ?? this.titulo,
         urlCapa: urlCapa ?? this.urlCapa,
+        imagemCapa: imagemCapa ?? this.imagemCapa,
         avaliacaoUsuario: avaliacaoUsuario ?? this.avaliacaoUsuario,
         favorito: favorito ?? this.favorito,
         assistirMaisTarde: assistirMaisTarde ?? this.assistirMaisTarde,

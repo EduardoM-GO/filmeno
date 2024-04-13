@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart';
+import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 
 abstract class Conteudo extends Equatable {
   final String codigo;
   final String titulo;
   final String urlCapa;
+  final Imagem? imagemCapa;
   final double _avaliacaoUsuario;
   final bool favorito;
   final bool assistirMaisTarde;
@@ -14,6 +16,7 @@ abstract class Conteudo extends Equatable {
     required this.codigo,
     required this.titulo,
     required this.urlCapa,
+    this.imagemCapa,
     required double avaliacaoUsuario,
     required this.favorito,
     required this.assistirMaisTarde,
@@ -24,18 +27,20 @@ abstract class Conteudo extends Equatable {
     String? codigo,
     String? titulo,
     String? urlCapa,
+    Imagem? imagemCapa,
     double? avaliacaoUsuario,
     bool? favorito,
     bool? assistirMaisTarde,
   });
 
-  double get avaliacaoUsuario => _avaliacaoUsuario / 10;
+  double get avaliacaoUsuario => _avaliacaoUsuario;
 
   @override
   List<Object?> get props => [
         codigo,
         titulo,
         urlCapa,
+        imagemCapa,
         _avaliacaoUsuario,
         favorito,
         assistirMaisTarde,
