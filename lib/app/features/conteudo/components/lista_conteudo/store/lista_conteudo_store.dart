@@ -8,7 +8,7 @@ part 'lista_conteudo_state.dart';
 
 typedef ListaConteudoUseCase = Future<Result<List<Conteudo>, Falha>> Function();
 
-class ListaConteudoStore extends Store<ListaConteudoState> {
+final class ListaConteudoStore extends Store<ListaConteudoState> {
   final ListaConteudoUseCase _useCase;
   ListaConteudoStore(this._useCase) : super(ListaConteudoInicialState());
 

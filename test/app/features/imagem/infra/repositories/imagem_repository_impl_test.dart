@@ -63,24 +63,41 @@ void main() {
       url = 'url';
       registerFallbackValue(_FakeImagem());
     });
-    test('Ok', () async {
-      when(
-        () => cache.obterImagem(url),
-      ).thenAnswer((invocation) async => Success(Imagem.empty()));
+    group('Ok -', () {
+      test('Com imagem em cache', () async {
+        when(
+          () => cache.obterImagem(url),
+        ).thenAnswer((invocation) async => Success(Imagem(
+              dataCriacao: DateTime(0),
+              url: url,
+              imagem: const [],
+            )));
 
-      when(
-        () => datasource.buscarImagem(url),
-      ).thenAnswer((invocation) async => Success(Uint8List(0)));
+        final result = await repository.obterImagem(url);
 
-      when(
-        () => cache.salvar(any<Imagem>()),
-      ).thenAnswer((invocation) async => const Success(unit));
+        expect(result.isSuccess(), equals(true));
+        expect(result.fold((success) => success, (failure) => failure),
+            isA<Imagem>());
+      });
+      test('Sem imagem em cache', () async {
+        when(
+          () => cache.obterImagem(url),
+        ).thenAnswer((invocation) async => Success(Imagem.empty()));
 
-      final result = await repository.obterImagem(url);
+        when(
+          () => datasource.buscarImagem(url),
+        ).thenAnswer((invocation) async => Success(Uint8List(0)));
 
-      expect(result.isSuccess(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Imagem>());
+        when(
+          () => cache.salvar(any<Imagem>()),
+        ).thenAnswer((invocation) async => const Success(unit));
+
+        final result = await repository.obterImagem(url);
+
+        expect(result.isSuccess(), equals(true));
+        expect(result.fold((success) => success, (failure) => failure),
+            isA<Imagem>());
+      });
     });
 
     group('Erro -', () {
@@ -115,8 +132,6 @@ void main() {
         expect(result.fold((success) => success, (failure) => failure),
             equals(avisoMock));
       });
-
-  
     });
   });
 

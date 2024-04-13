@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-abstract class Store<T extends Object> extends ChangeNotifier {
+abstract base class Store<T extends Object> extends ChangeNotifier {
   T _state;
-  bool _isDisposed;
+  @visibleForTesting
+  bool isDisposed;
 
-  Store(this._state) : _isDisposed = false;
+  Store(this._state) : isDisposed = false;
 
   T get state => _state;
 
@@ -13,7 +14,7 @@ abstract class Store<T extends Object> extends ChangeNotifier {
     if (value == _state) return;
     _state = value;
 
-    if (_isDisposed) {
+    if (isDisposed) {
       return;
     }
     notifyListeners();
@@ -21,7 +22,7 @@ abstract class Store<T extends Object> extends ChangeNotifier {
 
   @override
   void dispose() {
-    _isDisposed = true;
+    isDisposed = true;
     super.dispose();
   }
 }
