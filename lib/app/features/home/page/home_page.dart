@@ -15,28 +15,32 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Filmeno'),
       ),
-      body: ListView(
-        children: [
-          ListaConteudoComponent(
-            titulo: 'Em cartaz',
-            useCase: GetIt.I.get<BuscarFilmesEmCartazUseCase>().call,
-          ),
-          const SizedBox(height: 16),
-          ListaConteudoComponent(
-            titulo: 'Melhores avaliados',
-            useCase: GetIt.I.get<BuscarFilmesMelhoresAvalidadosUseCase>().call,
-          ),
-          const SizedBox(height: 16),
-          ListaConteudoComponent(
-            titulo: 'Populares',
-            useCase: GetIt.I.get<BuscarFilmesPopularesUseCase>().call,
-          ),
-          const SizedBox(height: 16),
-          ListaConteudoComponent(
-            titulo: 'Proxima estreia',
-            useCase: GetIt.I.get<BuscarFilmesProximasEstreiasUseCase>().call,
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            ListaConteudoComponent(
+              titulo: 'Em cartaz',
+              useCase: GetIt.I.get<BuscarFilmesEmCartazUseCase>().call,
+            ),
+            const SizedBox(height: 16),
+            ListaConteudoComponent(
+              titulo: 'Melhores avaliados',
+              useCase:
+                  GetIt.I.get<BuscarFilmesMelhoresAvalidadosUseCase>().call,
+            ),
+            const SizedBox(height: 16),
+            ListaConteudoComponent(
+              titulo: 'Populares',
+              useCase: GetIt.I.get<BuscarFilmesPopularesUseCase>().call,
+            ),
+            const SizedBox(height: 16),
+            ListaConteudoComponent(
+              titulo: 'Proxima estreia',
+              useCase: GetIt.I.get<BuscarFilmesProximasEstreiasUseCase>().call,
+            ),
+          ],
+        ),
       ),
     );
   }

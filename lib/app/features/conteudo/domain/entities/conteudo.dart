@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart';
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
+import 'package:intl/intl.dart';
 
 abstract class Conteudo extends Equatable {
   final String codigo;
   final String titulo;
   final String urlCapa;
   final Imagem? imagemCapa;
-  final double _avaliacaoUsuario;
+  final double avaliacaoUsuario;
   final bool favorito;
   final bool assistirMaisTarde;
   final TipoConteudo tipo;
@@ -17,11 +18,11 @@ abstract class Conteudo extends Equatable {
     required this.titulo,
     required this.urlCapa,
     this.imagemCapa,
-    required double avaliacaoUsuario,
+    required this.avaliacaoUsuario,
     required this.favorito,
     required this.assistirMaisTarde,
     required this.tipo,
-  }) : _avaliacaoUsuario = avaliacaoUsuario;
+  });
 
   Conteudo copyWith({
     String? codigo,
@@ -33,7 +34,10 @@ abstract class Conteudo extends Equatable {
     bool? assistirMaisTarde,
   });
 
-  double get avaliacaoUsuario => _avaliacaoUsuario;
+  String get avaliacaoUsuarioFormatada => NumberFormat.decimalPercentPattern(
+        locale: 'pt_BR',
+        decimalDigits: 0,
+      ).format(avaliacaoUsuario / 10);
 
   @override
   List<Object?> get props => [
@@ -41,7 +45,7 @@ abstract class Conteudo extends Equatable {
         titulo,
         urlCapa,
         imagemCapa,
-        _avaliacaoUsuario,
+        avaliacaoUsuario,
         favorito,
         assistirMaisTarde,
         tipo

@@ -17,8 +17,7 @@ class CardConteudoWidget extends StatelessWidget {
           conteudo.imagemCapa!.imagem,
           fit: BoxFit.cover,
         ),
-        PercentualNotaConteudoWidget(
-            avaliacaoUsuario: conteudo.avaliacaoUsuario)
+        PercentualNotaConteudoWidget(conteudo: conteudo)
       ]);
     }
     child ??= const Placeholder();
