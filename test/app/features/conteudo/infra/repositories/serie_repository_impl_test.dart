@@ -1,6 +1,6 @@
-import 'package:filmeno/app/features/conteudo/domain/entities/filme.dart';
-import 'package:filmeno/app/features/conteudo/infra/datasources/filme_datasource.dart';
-import 'package:filmeno/app/features/conteudo/infra/repositories/filme_repository_impl.dart';
+import 'package:filmeno/app/features/conteudo/domain/entities/serie.dart';
+import 'package:filmeno/app/features/conteudo/infra/datasources/serie_datasource.dart';
+import 'package:filmeno/app/features/conteudo/infra/repositories/serie_repository_impl.dart';
 import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,48 +8,20 @@ import 'package:result_dart/result_dart.dart';
 
 import '../../../../mock/aviso_mock.dart';
 
-class _MockFilmeDatasource extends Mock implements FilmeDatasource {}
+class _MockSerieDatasource extends Mock implements SerieDatasource {}
 
 void main() {
-  late FilmeDatasource datasource;
-  late FilmeRepositoryImpl repository;
-  late List<Filme> resultado;
+  late SerieDatasource datasource;
+  late SerieRepositoryImpl repository;
+  late List<Serie> resultado;
 
   setUp(() {
-    datasource = _MockFilmeDatasource();
-    repository = FilmeRepositoryImpl(datasource);
+    datasource = _MockSerieDatasource();
+    repository = SerieRepositoryImpl(datasource);
     resultado = [];
   });
 
-  group('filme repository impl - buscarEmCartaz -', () {
-    test('Ok', () async {
-      when(
-        () => datasource.buscarEmCartaz(),
-      ).thenAnswer((invocation) async => Success(resultado));
-      final result = await repository.buscarEmCartaz();
-
-      expect(result.isSuccess(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<List<Filme>>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(resultado));
-    });
-
-    test('Erro', () async {
-      when(
-        () => datasource.buscarEmCartaz(),
-      ).thenAnswer((invocation) async => Failure(avisoMock));
-      final result = await repository.buscarEmCartaz();
-
-      expect(result.isError(), equals(true));
-      expect(result.fold((success) => success, (failure) => failure),
-          isA<Falha>());
-      expect(result.fold((success) => success, (failure) => failure),
-          equals(avisoMock));
-    });
-  });
-
-  group('filme repository impl - buscarMelhoresAvaliados -', () {
+  group('serie repository impl - buscarMelhoresAvaliados -', () {
     test('Ok', () async {
       when(
         () => datasource.buscarMelhoresAvaliados(),
@@ -58,7 +30,7 @@ void main() {
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<List<Filme>>());
+          isA<List<Serie>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
@@ -77,25 +49,25 @@ void main() {
     });
   });
 
-  group('filme repository impl - buscarPopulares -', () {
+  group('serie repository impl - buscarPopular -', () {
     test('Ok', () async {
       when(
-        () => datasource.buscarPopulares(),
+        () => datasource.buscarPopular(),
       ).thenAnswer((invocation) async => Success(resultado));
-      final result = await repository.buscarPopulares();
+      final result = await repository.buscarPopular();
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<List<Filme>>());
+          isA<List<Serie>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
 
     test('Erro', () async {
       when(
-        () => datasource.buscarPopulares(),
+        () => datasource.buscarPopular(),
       ).thenAnswer((invocation) async => Failure(avisoMock));
-      final result = await repository.buscarPopulares();
+      final result = await repository.buscarPopular();
 
       expect(result.isError(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
@@ -105,25 +77,53 @@ void main() {
     });
   });
 
-  group('filme repository impl - buscarProximasEstreias -', () {
+  group('serie repository impl - buscarVaiSerExibidoHoje -', () {
     test('Ok', () async {
       when(
-        () => datasource.buscarProximasEstreias(),
+        () => datasource.buscarVaiSerExibidoHoje(),
       ).thenAnswer((invocation) async => Success(resultado));
-      final result = await repository.buscarProximasEstreias();
+      final result = await repository.buscarVaiSerExibidoHoje();
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
-          isA<List<Filme>>());
+          isA<List<Serie>>());
       expect(result.fold((success) => success, (failure) => failure),
           equals(resultado));
     });
 
     test('Erro', () async {
       when(
-        () => datasource.buscarProximasEstreias(),
+        () => datasource.buscarVaiSerExibidoHoje(),
       ).thenAnswer((invocation) async => Failure(avisoMock));
-      final result = await repository.buscarProximasEstreias();
+      final result = await repository.buscarVaiSerExibidoHoje();
+
+      expect(result.isError(), equals(true));
+      expect(result.fold((success) => success, (failure) => failure),
+          isA<Falha>());
+      expect(result.fold((success) => success, (failure) => failure),
+          equals(avisoMock));
+    });
+  });
+
+  group('serie repository impl - buscarVaiSerExibidoNaSemana -', () {
+    test('Ok', () async {
+      when(
+        () => datasource.buscarVaiSerExibidoNaSemana(),
+      ).thenAnswer((invocation) async => Success(resultado));
+      final result = await repository.buscarVaiSerExibidoNaSemana();
+
+      expect(result.isSuccess(), equals(true));
+      expect(result.fold((success) => success, (failure) => failure),
+          isA<List<Serie>>());
+      expect(result.fold((success) => success, (failure) => failure),
+          equals(resultado));
+    });
+
+    test('Erro', () async {
+      when(
+        () => datasource.buscarVaiSerExibidoNaSemana(),
+      ).thenAnswer((invocation) async => Failure(avisoMock));
+      final result = await repository.buscarVaiSerExibidoNaSemana();
 
       expect(result.isError(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),

@@ -24,13 +24,31 @@ List<GoRota> get rotas => [
 
           getIt.registerFactory<BuscarFilmesEmCartazUseCase>(
               () => BuscarFilmesEmCartazUseCaseImpl(getIt.get(), getIt.get()));
-          getIt.registerFactory<BuscarFilmesMelhoresAvalidadosUseCase>(() =>
-              BuscarFilmesMelhoresAvalidadosUseCaseImpl(
+          getIt.registerFactory<BuscarFilmesMelhoresAvaliadosUseCase>(() =>
+              BuscarFilmesMelhoresAvaliadosUseCaseImpl(
                   getIt.get(), getIt.get()));
           getIt.registerFactory<BuscarFilmesPopularesUseCase>(
               () => BuscarFilmesPopularesUseCaseImpl(getIt.get(), getIt.get()));
           getIt.registerFactory<BuscarFilmesProximasEstreiasUseCase>(() =>
               BuscarFilmesProximasEstreiasUseCaseImpl(
+                  getIt.get(), getIt.get()));
+
+          ///Series
+          getIt.registerSingleton<Mapper<Serie>>(SerieMapper());
+          getIt.registerFactory<SerieDatasource>(
+              () => SerieDatasourceImpl(getIt.get(), getIt.get()));
+          getIt.registerFactory<SerieRepository>(
+              () => SerieRepositoryImpl(getIt.get()));
+          getIt.registerFactory<BuscarSeriesMelhoresAvaliadosUseCase>(() =>
+              BuscarSeriesMelhoresAvaliadosUseCaseImpl(
+                  getIt.get(), getIt.get()));
+          getIt.registerFactory<BuscarSeriesPopularesUseCase>(
+              () => BuscarSeriesPopularesUseCaseImpl(getIt.get(), getIt.get()));
+          getIt.registerFactory<BuscarSeriesVaiSerExibidoHojeUseCase>(() =>
+              BuscarSeriesVaiSerExibidoHojeUseCaseImpl(
+                  getIt.get(), getIt.get()));
+          getIt.registerFactory<BuscarSeriesVaiSerExibidoNaSemanaUseCase>(() =>
+              BuscarSeriesVaiSerExibidoNaSemanaUseCaseImpl(
                   getIt.get(), getIt.get()));
         },
         builder: (context, state) => const HomePage(),

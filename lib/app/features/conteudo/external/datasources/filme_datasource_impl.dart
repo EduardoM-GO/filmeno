@@ -12,10 +12,6 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   final Mapper<Filme> _mapper;
 
   FilmeDatasourceImpl(this._httpService, this._mapper);
-  @visibleForTesting
-  Map<String, String> get mapHeaders => {
-        'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
-      };
 
   @override
   Future<Result<List<Filme>, Falha>> buscarEmCartaz() async {
@@ -40,7 +36,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   }
 
   @override
-  Future<Result<List<Filme>, Falha>> buscarMelhoresAvalidados() async {
+  Future<Result<List<Filme>, Falha>> buscarMelhoresAvaliados() async {
     try {
       final response = await _httpService.getList<Filme>(
         url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
@@ -57,7 +53,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
             'Não foi possível obter os filmes com as melhores avaliações.',
         exception: exception,
         stack: stack,
-        tagMetodo: 'FilmeDatasourceImpl-buscarMaisBemAvaliados',
+        tagMetodo: 'FilmeDatasourceImpl-buscarMelhoresAvaliados',
       ));
     }
   }
@@ -105,4 +101,9 @@ class FilmeDatasourceImpl implements FilmeDatasource {
       ));
     }
   }
+
+  @visibleForTesting
+  Map<String, String> get mapHeaders => {
+        'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
+      };
 }

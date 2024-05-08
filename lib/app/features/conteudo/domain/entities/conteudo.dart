@@ -3,7 +3,7 @@ import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 import 'package:intl/intl.dart';
 
-abstract class Conteudo extends Equatable {
+abstract base class Conteudo extends Equatable {
   final String codigo;
   final String titulo;
   final String urlCapa;

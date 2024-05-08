@@ -2,7 +2,7 @@ import 'package:filmeno/app/features/conteudo/domain/entities/conteudo.dart';
 import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/plataforma_streaming.dart';
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 
-class ConteudoDetalhado extends Conteudo {
+final class ConteudoDetalhado extends Conteudo {
   final String faixaEtaria;
   final DateTime dataLancamento;
   final Duration duracao;

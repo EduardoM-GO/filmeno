@@ -66,7 +66,7 @@ void main() {
     });
   });
 
-  group('filme datasource impl - buscarMelhoresAvalidados -', () {
+  group('filme datasource impl - buscarMelhoresAvaliados -', () {
     test('Ok', () async {
       when(
         () => httpService.getList(
@@ -75,7 +75,7 @@ void main() {
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
 
-      final result = await datasourceImpl.buscarMelhoresAvalidados();
+      final result = await datasourceImpl.buscarMelhoresAvaliados();
 
       expect(result.isSuccess(), equals(true));
       expect(result.fold((success) => success, (failure) => failure),
@@ -91,13 +91,13 @@ void main() {
             mapper: mapper),
       ).thenThrow(Exception());
 
-      final result = await datasourceImpl.buscarMelhoresAvalidados();
+      final result = await datasourceImpl.buscarMelhoresAvaliados();
 
       expect(result.isError(), equals(true));
       expect(
           result.fold((success) => success, (failure) => failure), isA<Erro>());
       expect(result.fold((success) => success, (failure) => failure.tagMetodo),
-          equals('FilmeDatasourceImpl-buscarMaisBemAvaliados'));
+          equals('FilmeDatasourceImpl-buscarMelhoresAvaliados'));
     });
   });
 

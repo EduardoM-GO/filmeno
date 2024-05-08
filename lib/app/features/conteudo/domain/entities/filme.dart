@@ -2,7 +2,7 @@ import 'package:filmeno/app/features/conteudo/domain/entities/conteudo.dart';
 import 'package:filmeno/app/features/conteudo/domain/entities/tipo_conteudo.dart';
 import 'package:filmeno/app/features/imagem/domain/entities/imagem.dart';
 
-class Filme extends Conteudo {
+final class Filme extends Conteudo {
   const Filme({
     required super.codigo,
     required super.titulo,

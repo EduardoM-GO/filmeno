@@ -52,7 +52,9 @@ void main() {
     });
 
     test('status == 200', () async {
-      when(() => client.get(Uri.parse(url), headers: {'language': 'pt-BR'}))
+      when(() => client.get(Uri.parse(url).replace(queryParameters: {
+                'language': 'pt-BR',
+              })))
           .thenAnswer((invocation) async => http.Response.bytes(jsonUtf8, 200));
 
       final result = await serviceImpl.get<Filme>(url: url, mapper: mapper);
@@ -71,8 +73,9 @@ void main() {
     });
 
     test('status != 200', () async {
-      when(() => client.get(Uri.parse(url), headers: {'language': 'pt-BR'}))
-          .thenAnswer((invocation) async => http.Response('', 201));
+      when(() => client.get(Uri.parse(url).replace(queryParameters: {
+            'language': 'pt-BR',
+          }))).thenAnswer((invocation) async => http.Response('', 201));
 
       expect(() async => serviceImpl.get<Filme>(url: url, mapper: mapper),
           throwsA(isA<http.Response>()));
@@ -87,8 +90,8 @@ void main() {
     });
 
     test('status == 200', () async {
-      when(() => client
-              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
+      when(() => client.get(Uri.parse(url)
+              .replace(queryParameters: {'page': '1', 'language': 'pt-BR'})))
           .thenAnswer((invocation) async => http.Response.bytes(jsonUtf8, 200));
 
       final result = await serviceImpl.getList<Filme>(url: url, mapper: mapper);
@@ -110,8 +113,8 @@ void main() {
         "total_results": 848741
       }));
 
-      when(() => client
-              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
+      when(() => client.get(Uri.parse(url)
+              .replace(queryParameters: {'page': '1', 'language': 'pt-BR'})))
           .thenAnswer(
               (invocation) async => http.Response.bytes(jsonUtf8Empty, 200));
 
@@ -127,8 +130,8 @@ void main() {
     });
 
     test('status != 200', () async {
-      when(() => client
-              .get(Uri.parse(url), headers: {'language': 'pt-BR', 'page': '1'}))
+      when(() => client.get(Uri.parse(url)
+              .replace(queryParameters: {'page': '1', 'language': 'pt-BR'})))
           .thenAnswer((invocation) async => http.Response('', 201));
 
       expect(() async => serviceImpl.getList<Filme>(url: url, mapper: mapper),

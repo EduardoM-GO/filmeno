@@ -10,21 +10,23 @@ import 'package:result_dart/result_dart.dart';
 import '../../../../mock/aviso_mock.dart';
 
 class _MockFilmeRepository extends Mock implements FilmeRepository {}
+
 class _MockImagemRepository extends Mock implements ImagemRepository {}
 
 void main() {
-  late BuscarFilmesMelhoresAvalidadosUseCaseImpl useCase;
+  late BuscarFilmesMelhoresAvaliadosUseCaseImpl useCase;
   late _MockFilmeRepository repository;
 
   setUp(() {
     repository = _MockFilmeRepository();
-    useCase = BuscarFilmesMelhoresAvalidadosUseCaseImpl(repository, _MockImagemRepository());
+    useCase = BuscarFilmesMelhoresAvaliadosUseCaseImpl(
+        repository, _MockImagemRepository());
   });
 
   test('buscar filmes melhores avaliados use case - Ok', () async {
     final List<Filme> filmes = [];
 
-    when(() => repository.buscarMelhoresAvalidados())
+    when(() => repository.buscarMelhoresAvaliados())
         .thenAnswer((_) async => Success(filmes));
 
     final result = await useCase.call();
@@ -35,7 +37,7 @@ void main() {
   });
 
   test('buscar filmes melhores avaliados use case - Erro', () async {
-    when(() => repository.buscarMelhoresAvalidados())
+    when(() => repository.buscarMelhoresAvaliados())
         .thenAnswer((_) async => Failure(avisoMock));
 
     final result = await useCase();

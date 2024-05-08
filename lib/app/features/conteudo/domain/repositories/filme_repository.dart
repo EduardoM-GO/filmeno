@@ -6,5 +6,5 @@ abstract interface class FilmeRepository {
   Future<Result<List<Filme>, Falha>> buscarPopulares();
   Future<Result<List<Filme>, Falha>> buscarEmCartaz();
   Future<Result<List<Filme>, Falha>> buscarProximasEstreias();
-  Future<Result<List<Filme>, Falha>> buscarMelhoresAvalidados();
+  Future<Result<List<Filme>, Falha>> buscarMelhoresAvaliados();
 }

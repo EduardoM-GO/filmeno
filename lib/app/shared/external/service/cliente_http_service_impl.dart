@@ -13,17 +13,15 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
 
   ClienteHttpServiceImpl(this._client, this._metadadosMapper);
   @override
-  Future<T> get<T extends Object>(
-      {required String url,
-      required Mapper<T> mapper,
-      Map<String, String>? headers}) async {
-    final Uri uri = Uri.parse(url);
+  Future<T> get<T extends Object>({
+    required String url,
+    required Mapper<T> mapper,
+    Map<String, String>? headers,
+    Map<String, String>? params,
+  }) async {
+    final Uri uri = getUrl(url, params);
 
-    Map<String, String> headersCompleto = headers ?? {};
-
-    headersCompleto.addAll({'language': 'pt-BR'});
-
-    final response = await _client.get(uri, headers: headersCompleto);
+    final response = await _client.get(uri, headers: headers);
 
     if (response.statusCode != 200) {
       throw response;
@@ -42,14 +40,15 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
     required Mapper<T> mapper,
     int? pagina,
     Map<String, String>? headers,
+    Map<String, String>? params,
   }) async {
-    final Uri uri = Uri.parse(url);
+    final Map<String, String> parametros = params ?? {};
 
-    Map<String, String> headersCompleto = headers ?? {};
+    parametros.addAll({'page': '${pagina ?? 1}'});
 
-    headersCompleto.addAll({'page': '${pagina ?? 1}', 'language': 'pt-BR'});
+    final Uri uri = getUrl(url, parametros);
 
-    final response = await _client.get(uri, headers: headersCompleto);
+    final response = await _client.get(uri, headers: headers);
 
     if (response.statusCode != 200) {
       throw response;
@@ -77,6 +76,14 @@ class ClienteHttpServiceImpl implements ClienteHttpService {
         RespostaHttp<List<T>>(metadadosHttp: metadadosHttp, resultado: retorno);
 
     return respostaHttp;
+  }
+
+  @visibleForTesting
+  Uri getUrl(String url, Map<String, String>? params) {
+    final Uri uri = Uri.parse(url);
+    final Map<String, String> queryParameters = params ?? {};
+    queryParameters.addAll({'language': 'pt-BR'});
+    return uri.replace(queryParameters: queryParameters);
   }
 
   @override

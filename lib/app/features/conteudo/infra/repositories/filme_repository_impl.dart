@@ -14,8 +14,8 @@ class FilmeRepositoryImpl implements FilmeRepository {
       _datasource.buscarEmCartaz();
 
   @override
-  Future<Result<List<Filme>, Falha>> buscarMelhoresAvalidados() =>
-      _datasource.buscarMelhoresAvalidados();
+  Future<Result<List<Filme>, Falha>> buscarMelhoresAvaliados() =>
+      _datasource.buscarMelhoresAvaliados();
 
   @override
   Future<Result<List<Filme>, Falha>> buscarPopulares() =>
