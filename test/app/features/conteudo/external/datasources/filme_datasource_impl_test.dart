@@ -35,7 +35,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
+            url: '${Configuracao.I.apiUrlBase}/movie/now_playing',
             headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
@@ -52,7 +52,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
+            url: '${Configuracao.I.apiUrlBase}/movie/now_playing',
             mapper: mapper),
       ).thenThrow(Exception());
 
@@ -70,7 +70,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+            url: '${Configuracao.I.apiUrlBase}/movie/top_rated',
             headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
@@ -87,7 +87,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+            url: '${Configuracao.I.apiUrlBase}/movie/top_rated',
             mapper: mapper),
       ).thenThrow(Exception());
 
@@ -105,7 +105,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/popular',
+            url: '${Configuracao.I.apiUrlBase}/movie/popular',
             headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
@@ -122,8 +122,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/popular',
-            mapper: mapper),
+            url: '${Configuracao.I.apiUrlBase}/movie/popular', mapper: mapper),
       ).thenThrow(Exception());
 
       final result = await datasourceImpl.buscarPopulares();
@@ -140,7 +139,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
+            url: '${Configuracao.I.apiUrlBase}/movie/upcoming',
             headers: datasourceImpl.mapHeaders,
             mapper: mapper),
       ).thenAnswer((invocation) async => respostaHttp);
@@ -157,8 +156,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList(
-            url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
-            mapper: mapper),
+            url: '${Configuracao.I.apiUrlBase}/movie/upcoming', mapper: mapper),
       ).thenThrow(Exception());
 
       final result = await datasourceImpl.buscarProximasEstreias();

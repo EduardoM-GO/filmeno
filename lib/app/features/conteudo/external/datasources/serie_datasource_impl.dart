@@ -17,7 +17,7 @@ class SerieDatasourceImpl implements SerieDatasource {
   Future<Result<List<Serie>, Falha>> buscarMelhoresAvaliados() async {
     try {
       final response = await _httpService.getList<Serie>(
-        url: '${Configuracao.instance.apiUrlBase}/tv/top_rated',
+        url: '${Configuracao.I.apiUrlBase}/tv/top_rated',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -40,7 +40,7 @@ class SerieDatasourceImpl implements SerieDatasource {
   Future<Result<List<Serie>, Falha>> buscarPopular() async {
     try {
       final response = await _httpService.getList<Serie>(
-        url: '${Configuracao.instance.apiUrlBase}/tv/popular',
+        url: '${Configuracao.I.apiUrlBase}/tv/popular',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -62,7 +62,7 @@ class SerieDatasourceImpl implements SerieDatasource {
   Future<Result<List<Serie>, Falha>> buscarVaiSerExibidoHoje() async {
     try {
       final response = await _httpService.getList<Serie>(
-        url: '${Configuracao.instance.apiUrlBase}/tv/airing_today',
+        url: '${Configuracao.I.apiUrlBase}/tv/airing_today',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -85,7 +85,7 @@ class SerieDatasourceImpl implements SerieDatasource {
   Future<Result<List<Serie>, Falha>> buscarVaiSerExibidoNaSemana() async {
     try {
       final response = await _httpService.getList<Serie>(
-        url: '${Configuracao.instance.apiUrlBase}/tv/on_the_air',
+        url: '${Configuracao.I.apiUrlBase}/tv/on_the_air',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -106,6 +106,6 @@ class SerieDatasourceImpl implements SerieDatasource {
 
   @visibleForTesting
   Map<String, String> get mapHeaders => {
-        'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
+        'Authorization': 'Bearer ${Configuracao.I.apiKey}',
       };
 }

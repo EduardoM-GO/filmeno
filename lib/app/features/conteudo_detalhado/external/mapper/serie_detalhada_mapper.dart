@@ -5,7 +5,7 @@ import 'package:filmeno/app/shared/external/mapper/plataformas_mapper_mixin.dart
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-class SerieDetalhadoMapper
+class SerieDetalhadaMapper
     with PlataformasMapperMixin, GenerosMapperMixin
     implements Mapper<SerieDetalhada> {
   @override

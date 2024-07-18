@@ -17,7 +17,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   Future<Result<List<Filme>, Falha>> buscarEmCartaz() async {
     try {
       final response = await _httpService.getList<Filme>(
-          url: '${Configuracao.instance.apiUrlBase}/movie/now_playing',
+          url: '${Configuracao.I.apiUrlBase}/movie/now_playing',
           headers: mapHeaders,
           mapper: _mapper);
 
@@ -39,7 +39,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   Future<Result<List<Filme>, Falha>> buscarMelhoresAvaliados() async {
     try {
       final response = await _httpService.getList<Filme>(
-        url: '${Configuracao.instance.apiUrlBase}/movie/top_rated',
+        url: '${Configuracao.I.apiUrlBase}/movie/top_rated',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -62,7 +62,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   Future<Result<List<Filme>, Falha>> buscarPopulares() async {
     try {
       final response = await _httpService.getList<Filme>(
-        url: '${Configuracao.instance.apiUrlBase}/movie/popular',
+        url: '${Configuracao.I.apiUrlBase}/movie/popular',
         headers: mapHeaders,
         mapper: _mapper,
       );
@@ -84,7 +84,7 @@ class FilmeDatasourceImpl implements FilmeDatasource {
   Future<Result<List<Filme>, Falha>> buscarProximasEstreias() async {
     try {
       final response = await _httpService.getList<Filme>(
-          url: '${Configuracao.instance.apiUrlBase}/movie/upcoming',
+          url: '${Configuracao.I.apiUrlBase}/movie/upcoming',
           headers: mapHeaders,
           mapper: _mapper);
 
@@ -104,6 +104,6 @@ class FilmeDatasourceImpl implements FilmeDatasource {
 
   @visibleForTesting
   Map<String, String> get mapHeaders => {
-        'Authorization': 'Bearer ${Configuracao.instance.apiKey}',
+        'Authorization': 'Bearer ${Configuracao.I.apiKey}',
       };
 }

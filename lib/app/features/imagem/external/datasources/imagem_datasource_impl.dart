@@ -13,8 +13,8 @@ class ImagemDatasourceImpl implements ImagemDatasource {
   @override
   Future<Result<Uint8List, Falha>> buscarImagem(String url) async {
     try {
-      final response = await _httpService
-          .getImagem('${Configuracao.instance.imagemUrlBase}$url');
+      final response =
+          await _httpService.getImagem('${Configuracao.I.imagemUrlBase}$url');
 
       return Result.success(response);
     } catch (exception, stack) {

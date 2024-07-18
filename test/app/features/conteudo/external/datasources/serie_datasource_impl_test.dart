@@ -36,7 +36,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/top_rated',
+          url: '${Configuracao.I.apiUrlBase}/tv/top_rated',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -58,7 +58,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/top_rated',
+          url: '${Configuracao.I.apiUrlBase}/tv/top_rated',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -80,7 +80,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/popular',
+          url: '${Configuracao.I.apiUrlBase}/tv/popular',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -102,7 +102,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/popular',
+          url: '${Configuracao.I.apiUrlBase}/tv/popular',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -126,7 +126,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/airing_today',
+          url: '${Configuracao.I.apiUrlBase}/tv/airing_today',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -148,7 +148,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/airing_today',
+          url: '${Configuracao.I.apiUrlBase}/tv/airing_today',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -172,7 +172,7 @@ void main() {
     test('Ok', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/on_the_air',
+          url: '${Configuracao.I.apiUrlBase}/tv/on_the_air',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),
@@ -194,7 +194,7 @@ void main() {
     test('Erro', () async {
       when(
         () => httpService.getList<Serie>(
-          url: '${Configuracao.instance.apiUrlBase}/tv/on_the_air',
+          url: '${Configuracao.I.apiUrlBase}/tv/on_the_air',
           headers: datasourceImpl.mapHeaders,
           mapper: mapper,
         ),

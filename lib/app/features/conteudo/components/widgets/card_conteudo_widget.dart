@@ -23,7 +23,7 @@ class CardConteudoWidget extends StatelessWidget {
     child ??= const Placeholder();
 
     return AnimatedSwitcher(
-      duration: Configuracao.instance.duracaoAnimacao,
+      duration: Configuracao.I.duracaoAnimacao,
       child: SizedBox(height: 250, width: 150, child: child),
     );
   }

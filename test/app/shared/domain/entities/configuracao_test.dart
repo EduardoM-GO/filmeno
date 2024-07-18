@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   late Configuracao configuracao;
 
-  setUp(() => configuracao = Configuracao.instance);
+  setUp(() => configuracao = Configuracao.I);
 
   test('configuracao - apiUrlBase', () {
     final result = configuracao.apiUrlBase;

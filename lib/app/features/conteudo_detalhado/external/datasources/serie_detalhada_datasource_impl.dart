@@ -16,7 +16,7 @@ class SerieDetalhadaDatasourceImpl implements SerieDetalhadaDatasource {
   Future<Result<SerieDetalhada, Falha>> get(String codigo) async {
     try {
       final response = await _httpService.get<SerieDetalhada>(
-        url: '${Configuracao.instance.apiUrlBase}/tv/$codigo',
+        url: '${Configuracao.I.apiUrlBase}/tv/$codigo',
         headers: {
           'language': 'pt-BR',
           'append_to_response': 'release_dates,watch/providers,content_ratings'

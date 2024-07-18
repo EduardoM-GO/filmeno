@@ -1,16 +1,16 @@
 import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/plataforma_streaming.dart';
 import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/serie_detalhada.dart';
 import 'package:filmeno/app/features/conteudo_detalhado/domain/entities/tipo_acesso.dart';
-import 'package:filmeno/app/features/conteudo_detalhado/external/mapper/serie_detalhado_mapper.dart';
+import 'package:filmeno/app/features/conteudo_detalhado/external/mapper/serie_detalhada_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../mock/map/serie_detalhada_map.dart';
 
 void main() {
-  late SerieDetalhadoMapper mapper;
+  late SerieDetalhadaMapper mapper;
 
   setUp(() {
-    mapper = SerieDetalhadoMapper();
+    mapper = SerieDetalhadaMapper();
   });
 
   test('serie detalhado mapper - fromMap', () {

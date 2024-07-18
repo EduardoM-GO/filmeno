@@ -24,7 +24,7 @@ void main() {
     setUp(() => url = '/url');
     test('Ok', () async {
       when(
-        () => service.getImagem('${Configuracao.instance.imagemUrlBase}$url'),
+        () => service.getImagem('${Configuracao.I.imagemUrlBase}$url'),
       ).thenAnswer((invocation) async => Uint8List(0));
 
       final result = await datasouce.buscarImagem(url);
@@ -38,7 +38,7 @@ void main() {
 
     test('Erro', () async {
       when(
-        () => service.getImagem('${Configuracao.instance.imagemUrlBase}$url'),
+        () => service.getImagem('${Configuracao.I.imagemUrlBase}$url'),
       ).thenThrow(Exception());
 
       final result = await datasouce.buscarImagem(url);

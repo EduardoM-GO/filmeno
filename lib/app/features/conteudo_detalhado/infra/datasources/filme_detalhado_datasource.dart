@@ -3,5 +3,5 @@ import 'package:filmeno/app/shared/falha/falha.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class FilmeDetalhadoDatasource {
-  Future<Result<Falha, FilmeDetalhado>> get(String codigo);
+  Future<Result<FilmeDetalhado, Falha>> get(String codigo);
 }
