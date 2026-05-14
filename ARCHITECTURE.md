@@ -1,60 +1,47 @@
-# Arquitetura
+# Arquitetura e Padrões de Projeto
 
-# Objetivo
+## 1. Vertical Slices Architecture
+Neste projeto, abandonamos a "Clean Architecture" de camadas horizontais (Data/Domain/Presentation) em favor de fatias verticais. 
 
-Esse documento tem por objetivo principal organizar o processo de desenvolvimento do software.
+**Vantagens:**
+- **Baixo Acoplamento:** Alterar a lógica de busca de filmes não afeta a lógica de detalhes.
+- **Agilidade:** Todo o código necessário para um recurso está em um único diretório.
 
-# Regras iniciais, limite e Análise
+**Estrutura da Slice:**
+`lib/features/movie_search/`
+- `movie_search_provider.dart` (Lógica e Estado)
+- `movie_search_repository.dart` (Acesso a dados)
+- `movie_search_view.dart` (UI)
+- `movie_search_model.dart` (Entidades da fatia)
 
-Pontos a serem levados em consideração antes de introduzir uma nova feature:
+## 2. Functional Reactive Programming (FRP)
+A lógica de negócio é tratada como uma série de transformações de dados.
 
-- Todo projeto precisará respeitar as regras de Lint escritas no pacote flutterando-analysis.
-- Esse projeto deve ter cobertura mínima de testes de no mínimo 70%.
-- Camadas globais devem ter um lugar específico na aplicação, por tanto, devem estar na pasta Shared.
-- Cada feature deverá ter sua própria pasta onde conterá todas as camadas necessárias para a execução dos casos de uso da feature.
-- Todos os designs patterns usados no projeto devem estar listados na sessão “Design Patterns” desse documento, caso contrário será considerado implementação errônea.
-- Packages e plugins novos só poderão ser usados nos projetos após avaliação e aprovação de toda equipe responsável pelo projeto.
-- Atualizações no Modelo de domínio só poderão ser aceitas se primeiro for adicionada nesse documento e aprovado por todos os envolvidos no projeto.
-- Não é permitido ter uma classe concreta como dependência de uma camada. Só será aceita coesão com classes abstratas ou interfaces. Com exceção da Store.
-- Cada camada deve ter apenas uma responsabilidade.
-- Cada enum deve ser definido em seu próprio arquivo, semelhante a uma classe.
+- **TaskEither:** Usado para operações assíncronas que podem falhar. Garante que o erro seja tratado obrigatoriamente.
+- **AsyncValue (Riverpod):** A UI reage a estados de carregamento, erro e sucesso de forma nativa e segura.
 
-
-# Entidades
-
-![image](diagrama_entidades.png)
-
-# Casos de Uso
-
-![image](diagrama_caso_de_uso.png)
-
-# Design Patterns
-- Datasource Pattern: Para acesso a API externa.
-- Service Pattern: Para abstração de pacote de terceiros.
-- Cache Pattern: Para manipulação de cache.
-- Repository Pattern: Para Centralizar o datasource, service e cache.
-- Domain Pattern: Para aplicação da regra de negocio
-- Dependency Injection: Resolver dependências das classes.
-- Store: Guardar e mudar estados.
-- State pattern: Padrão que auxilia no gerenciamento estados.
-- Json Mapper: Converter um json em classe.
-- Result: Trabalhar com retorno Múltiplo.
+## 3. Fluxo de Dados (The Functional Pipe)
+1. O usuário dispara um evento na View.
+2. O Provider executa um `TaskEither`.
+3. O Repositório compõe os dados (ex: Detalhes + Elenco).
+4. O estado é atualizado via Riverpod Generator.
+5. A UI se reconstrói baseada no novo valor imutável.
 
 
-# Package externos
+## Estrutura de Diretórios (Vertical Slices)
 
-- go_router: gerenciamento de rotas.
-- get_it: injeção de dependências.
-- result: Retorno múltiplo no formato Failure e Success.
-- isar: Banco de dados.
-- http: Para comunicação com API.
-- url_launcher: Para abrir link.
-- path_provider: Para obter o local do cache.
-- equatable: usado para fazer comparação dos objetos.
-- intl: usado para formatação de valores
+Para garantir o isolamento das funcionalidades e facilitar a manutenção, seguimos a estrutura abaixo:
 
-# Package externos (Dev)
-
-- Mocktail: Para testes de unidade.
-- isar_generator: Converte a classe em uma collection do isar.
-- build_runner: gerar os script automatico.
+```text
+lib/
+├── core/                           # Infraestrutura global (Network, Theme, UI Kit)
+├── features/                       # Fatias Verticais de Negócio
+│   ├── movie_trending/             # Cada funcionalidade é autossuficiente
+│   │   ├── data/                   # Repositórios e DTOs locais
+│   │   ├── domain/                 # Entidades e lógica de negócio local
+│   │   └── presentation/           # Providers, Hooks e Widgets de UI
+│   ├── movie_search/
+│   └── movie_details/
+├── shared/                         # Modelos e exceções compartilhadas (uso restrito)
+└── main.dart                       # Inicialização do App e ProviderScope
+```

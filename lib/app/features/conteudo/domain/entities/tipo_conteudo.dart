@@ -1,1 +1,0 @@
-enum TipoConteudo { filme, serie }
