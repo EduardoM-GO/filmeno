@@ -1,8 +1,8 @@
+import 'package:filmeno/features/navigation/presentation/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/theme/dynamic_theme_provider.dart';
-import 'features/movie_trending/presentation/trending_page.dart';
 
 void main() {
   runApp(
@@ -23,7 +23,7 @@ class FilmenoApp extends ConsumerWidget {
       title: 'Filmeno',
       debugShowCheckedModeBanner: false,
       theme: themeData,
-      home: const TrendingPage(),
+      home: const MainPage(),
     );
   }
 }

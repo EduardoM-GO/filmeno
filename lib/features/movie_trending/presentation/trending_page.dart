@@ -1,3 +1,4 @@
+import 'package:filmeno/features/movie_details/presentation/movie_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -30,9 +31,8 @@ class TrendingPage extends HookConsumerWidget {
             final movie = movies[index];
             return MovieCard(
               movie: movie,
-              onTap: () {
-                // TODO: Implementar navegação para detalhes
-              },
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MovieDetailsPage(movieId: movie.id))),
             );
           },
         ),
