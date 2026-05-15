@@ -23,8 +23,6 @@ class SearchPage extends HookConsumerWidget {
             border: InputBorder.none,
           ),
           onChanged: (value) {
-            // Chamamos o notifier a cada mudança.
-            // O debounce que criámos no Notifier protegerá a API.
             ref.read(movieSearchProvider.notifier).search(value);
           },
         ),

@@ -22,8 +22,6 @@ class MovieSearch extends _$MovieSearch {
     final repository = ref.read(searchRepositoryProvider);
     final result = await repository.searchMulti(query).run();
 
-    if (!ref.exists(movieSearchProvider)) return;
-
     state = result.match(
       (falha) => AsyncError(falha.mensagem, StackTrace.current),
       (list) => AsyncData(list),

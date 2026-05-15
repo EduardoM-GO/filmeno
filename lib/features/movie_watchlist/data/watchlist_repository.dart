@@ -9,11 +9,18 @@ class WatchlistRepository {
 
   WatchlistRepository(this._db);
 
-  TaskEither<Falha, Unit> saveMovie(Map<String, dynamic> movieJson) {
+  TaskEither<Falha, Unit> toggleMovie(Map<String, dynamic> movieJson) {
     return TaskEither.tryCatch(
       () async {
         final key = movieJson['id'] as int;
-        await _store.record(key).put(_db, movieJson);
+        final record = _store.record(key);
+
+        if (record.existsSync(_db)) {
+          await record.delete(_db);
+        } else {
+          await record.put(_db, movieJson);
+        }
+
         return unit;
       },
       (error, stack) => FalhaDesconhecida('Erro ao gravar no Sembast.'),

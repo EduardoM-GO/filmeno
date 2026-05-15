@@ -4,6 +4,7 @@ import 'package:filmeno/features/movie_watchlist/presentation/watchlist_notifier
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/network/api_config.dart';
 import '../../../core/theme/dynamic_theme_provider.dart';
@@ -58,7 +59,11 @@ class MovieDetailsPage extends HookConsumerWidget {
         data: (movie) => SingleChildScrollView(
           child: Column(
             children: [
-              CachedNetworkImage(imageUrl: '${ApiConfig.baseImageUrl}w780${movie.backdropPath}'),
+              CachedNetworkImage(
+                imageUrl: '${ApiConfig.baseImageUrl}w780${movie.backdropPath}',
+                height: 300,
+                width: 780,
+              ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -73,6 +78,41 @@ class MovieDetailsPage extends HookConsumerWidget {
                   ],
                 ),
               ),
+              if (movie.streamingProviders.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Disponível em:"),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: movie.streamingProviders.length,
+                        itemBuilder: (context, i) {
+                          final provider = movie.streamingProviders[i];
+                          return InkWell(
+                            onTap: () async {
+                              final url = Uri.parse(movie.watchLink);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url, mode: LaunchMode.externalApplication);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  'https://image.tmdb.org/t/p/original${provider.logoPath}',
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                )
             ],
           ),
         ),

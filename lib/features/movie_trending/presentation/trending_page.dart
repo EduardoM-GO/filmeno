@@ -1,4 +1,4 @@
-import 'package:filmeno/features/movie_details/presentation/movie_details_page.dart';
+import 'package:filmeno/features/movie_search/presentation/widgets/movie_search_anchor.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -16,6 +16,9 @@ class TrendingPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('Filmeno'),
         centerTitle: true,
+        actions: [
+          const MovieSearchAnchor(),
+        ],
       ),
       body: trendingAsync.when(
         data: (movies) => GridView.builder(
@@ -28,12 +31,7 @@ class TrendingPage extends HookConsumerWidget {
           ),
           itemCount: movies.length,
           itemBuilder: (context, index) {
-            final movie = movies[index];
-            return MovieCard(
-              movie: movie,
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MovieDetailsPage(movieId: movie.id))),
-            );
+            return MovieCard(movie: movies[index]);
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),

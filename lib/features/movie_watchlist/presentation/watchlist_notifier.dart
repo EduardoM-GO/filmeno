@@ -22,7 +22,6 @@ class Watchlist extends _$Watchlist {
     final db = await ref.read(sembastDatabaseProvider.future);
     final repository = WatchlistRepository(db);
 
-    // Usamos o TaskEither para garantir que erros de IO não crasham o app
-    await repository.saveMovie(movieJson).run();
+    await repository.toggleMovie(movieJson).run();
   }
 }
