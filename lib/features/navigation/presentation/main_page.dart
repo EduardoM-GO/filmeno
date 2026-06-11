@@ -1,9 +1,10 @@
+import 'package:filmeno/features/movie_recommendations/presentation/pages/recommendations_page.dart';
+import 'package:filmeno/features/user_profile/presentation/profile_watchlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../movie_trending/presentation/trending_page.dart';
-import '../../movie_watchlist/presentation/watchlist_page.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
@@ -16,7 +17,8 @@ class MainPage extends HookConsumerWidget {
 
     final pages = [
       const TrendingPage(),
-      const WatchlistPage(),
+      const RecommendationsPage(),
+      const ProfileWatchlistPage(),
     ];
 
     return Scaffold(
@@ -29,6 +31,8 @@ class MainPage extends HookConsumerWidget {
               labelType: NavigationRailLabelType.all,
               destinations: const [
                 NavigationRailDestination(icon: Icon(Icons.trending_up), label: Text('Trending')),
+                NavigationRailDestination(
+                    icon: Icon(Icons.psychology_outlined), label: Text('Recommendations')),
                 NavigationRailDestination(icon: Icon(Icons.bookmark), label: Text('Watchlist')),
               ],
             ),
@@ -47,6 +51,8 @@ class MainPage extends HookConsumerWidget {
               onDestinationSelected: (i) => selectedIndex.value = i,
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.trending_up), label: 'Trending'),
+                NavigationDestination(
+                    icon: Icon(Icons.psychology_outlined), label: 'Recommendations'),
                 NavigationDestination(icon: Icon(Icons.bookmark), label: 'Watchlist'),
               ],
             ),

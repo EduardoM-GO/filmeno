@@ -5,7 +5,6 @@ import 'package:filmeno/features/movie_details/presentation/widgets/movie_detail
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_header_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_overview_section_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_streaming_section_widget.dart';
-import 'package:filmeno/features/movie_watchlist/presentation/watchlist_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,14 +19,7 @@ class MovieDetailsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailsAsync = ref.watch(movieDetailsProvider(movieId));
-    final watchlistAsync = ref.watch(watchlistProvider);
 
-    final isSaved = watchlistAsync.maybeWhen(
-      data: (list) => list.any((m) => m['id'] == movieId),
-      orElse: () => false,
-    );
-
-    // Efeito para sincronizar a cor do tema com o poster do filme
     useEffect(() {
       detailsAsync.whenData((details) {
         final imageProvider = CachedNetworkImageProvider(
@@ -44,14 +36,6 @@ class MovieDetailsPage extends HookConsumerWidget {
           slivers: [
             MovieDetailsHeaderWidget(
               movie: movie,
-              isSaved: isSaved,
-              onWatchlistToggle: () {
-                ref.read(watchlistProvider.notifier).toggleMovie({
-                  'id': movie.id,
-                  'title': movie.title,
-                  'poster_path': movie.posterPath,
-                });
-              },
             ),
             SliverFloatingHeader(
               child: MovieInteractionControls(
@@ -71,8 +55,7 @@ class MovieDetailsPage extends HookConsumerWidget {
                   ],
                   const SizedBox(height: 24),
                   MovieDetailsCastSectionWidget(movie: movie),
-
-                  const SizedBox(height: 40), // Espaço de segurança no fim da rolagem
+                  const SizedBox(height: 40),
                 ]),
               ),
             ),

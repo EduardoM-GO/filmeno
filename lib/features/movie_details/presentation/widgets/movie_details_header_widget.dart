@@ -5,15 +5,8 @@ import 'package:flutter/material.dart';
 
 final class MovieDetailsHeaderWidget extends StatelessWidget {
   final MovieDetails movie;
-  final bool isSaved;
-  final VoidCallback onWatchlistToggle;
 
-  const MovieDetailsHeaderWidget({
-    super.key,
-    required this.movie,
-    required this.isSaved,
-    required this.onWatchlistToggle,
-  });
+  const MovieDetailsHeaderWidget({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {

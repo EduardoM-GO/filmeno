@@ -15,7 +15,7 @@ final class SearchRepository {
 
     return _client.get('/search/multi', params: {
       'query': query,
-      'include_adult': 'false',
+      'include_adult': 'true',
       'language': 'pt-BR',
     }).map((response) {
       final results = response['results'] as List;
