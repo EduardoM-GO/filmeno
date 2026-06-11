@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:filmeno/features/movie_details/presentation/movie_details_notifier.dart';
+import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_cast_section_widget.dart';
+import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_header_widget.dart';
+import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_overview_section_widget.dart';
+import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_streaming_section_widget.dart';
 import 'package:filmeno/features/movie_watchlist/presentation/watchlist_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/network/api_config.dart';
 import '../../../core/theme/dynamic_theme_provider.dart';
@@ -16,105 +19,56 @@ class MovieDetailsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailsAsync = ref.watch(movieDetailsProvider(movieId));
-
     final watchlistAsync = ref.watch(watchlistProvider);
+
     final isSaved = watchlistAsync.maybeWhen(
       data: (list) => list.any((m) => m['id'] == movieId),
       orElse: () => false,
     );
 
+    // Efeito para sincronizar a cor do tema com o poster do filme
     useEffect(() {
       detailsAsync.whenData((details) {
         final imageProvider = CachedNetworkImageProvider(
           '${ApiConfig.baseImageUrl}w500${details.posterPath}',
         );
-
         ref.read(appThemeProvider.notifier).updateThemeFromImage(imageProvider);
       });
       return null;
     }, [detailsAsync.hasValue]);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Detalhes',
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
-            onPressed: () {
-              final movie = detailsAsync.value;
-              if (movie != null) {
+      body: detailsAsync.when(
+        data: (movie) => CustomScrollView(
+          slivers: [
+            MovieDetailsHeaderWidget(
+              movie: movie,
+              isSaved: isSaved,
+              onWatchlistToggle: () {
                 ref.read(watchlistProvider.notifier).toggleMovie({
                   'id': movie.id,
                   'title': movie.title,
                   'poster_path': movie.posterPath,
                 });
-              }
-            },
-          ),
-        ],
-      ),
-      body: detailsAsync.when(
-        data: (movie) => SingleChildScrollView(
-          child: Column(
-            children: [
-              CachedNetworkImage(
-                imageUrl: '${ApiConfig.baseImageUrl}w780${movie.backdropPath}',
-                height: 300,
-                width: 780,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(movie.title, style: Theme.of(context).textTheme.headlineMedium),
-                    const SizedBox(height: 10),
-                    Text(movie.overview),
-                    const SizedBox(height: 20),
-                    Text('Elenco Principal:', style: Theme.of(context).textTheme.titleLarge),
-                    Text(movie.cast.join(', ')),
+              },
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  MovieDetailsOverviewSectionWidget(movie: movie),
+                  if (movie.streamingProviders.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    MovieDetailsStreamingSectionWidget(movie: movie),
                   ],
-                ),
+                  const SizedBox(height: 24),
+                  MovieDetailsCastSectionWidget(movie: movie),
+
+                  const SizedBox(height: 40), // Espaço de segurança no fim da rolagem
+                ]),
               ),
-              if (movie.streamingProviders.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Disponível em:"),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: movie.streamingProviders.length,
-                        itemBuilder: (context, i) {
-                          final provider = movie.streamingProviders[i];
-                          return InkWell(
-                            onTap: () async {
-                              final url = Uri.parse(movie.watchLink);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url, mode: LaunchMode.externalApplication);
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  'https://image.tmdb.org/t/p/original${provider.logoPath}',
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                )
-            ],
-          ),
+            ),
+          ],
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Erro: $err')),

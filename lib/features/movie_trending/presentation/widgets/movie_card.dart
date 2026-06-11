@@ -25,11 +25,14 @@ class MovieCard extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: '${ApiConfig.baseImageUrl}w500${movie.posterPath}',
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(color: Colors.black12),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    Hero(
+                      tag: movie.posterPath,
+                      child: CachedNetworkImage(
+                        imageUrl: '${ApiConfig.baseImageUrl}w500${movie.posterPath}',
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(color: Colors.black12),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
                     ),
                     Positioned(
                       bottom: 0,
