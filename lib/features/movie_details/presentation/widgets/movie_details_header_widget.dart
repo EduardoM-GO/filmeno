@@ -21,12 +21,6 @@ final class MovieDetailsHeaderWidget extends StatelessWidget {
       expandedHeight: 300.0,
       pinned: true,
       elevation: 0,
-      actions: [
-        IconButton(
-          icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
-          onPressed: onWatchlistToggle,
-        ),
-      ],
       flexibleSpace: FlexibleSpaceBar(
         title: Text(
           movie.title,

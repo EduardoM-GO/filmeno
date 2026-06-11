@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../movie_search/presentation/search_page.dart';
 import '../../movie_trending/presentation/trending_page.dart';
 import '../../movie_watchlist/presentation/watchlist_page.dart';
 
@@ -17,7 +16,6 @@ class MainPage extends HookConsumerWidget {
 
     final pages = [
       const TrendingPage(),
-      const SearchPage(),
       const WatchlistPage(),
     ];
 
@@ -31,7 +29,6 @@ class MainPage extends HookConsumerWidget {
               labelType: NavigationRailLabelType.all,
               destinations: const [
                 NavigationRailDestination(icon: Icon(Icons.trending_up), label: Text('Trending')),
-                NavigationRailDestination(icon: Icon(Icons.search), label: Text('Search')),
                 NavigationRailDestination(icon: Icon(Icons.bookmark), label: Text('Watchlist')),
               ],
             ),
@@ -50,7 +47,6 @@ class MainPage extends HookConsumerWidget {
               onDestinationSelected: (i) => selectedIndex.value = i,
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.trending_up), label: 'Trending'),
-                NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
                 NavigationDestination(icon: Icon(Icons.bookmark), label: 'Watchlist'),
               ],
             ),

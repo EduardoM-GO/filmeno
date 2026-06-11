@@ -10,8 +10,11 @@ class TrendingRepository {
   final FunctionalClient _client;
   TrendingRepository(this._client);
 
-  TaskEither<Falha, List<TrendingMovie>> getTrendingMovies() {
-    return _client.get('/trending/movie/day', params: {'language': 'pt-BR'}).map((response) {
+  TaskEither<Falha, List<TrendingMovie>> getTrendingMovies({int page = 1}) {
+    return _client.get('/trending/movie/day', params: {
+      'language': 'pt-BR',
+      'page': '$page',
+    }).map((response) {
       final results = response['results'] as List;
       return results.map((m) => TrendingMovie.fromMap(m)).toList();
     });

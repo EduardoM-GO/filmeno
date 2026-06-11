@@ -13,6 +13,10 @@ final class FalhaServidor extends Falha {
       : super(msg ?? 'Erro interno do servidor ($statusCode).');
 }
 
+final class FalhaNoBancoDeDados extends Falha {
+  FalhaNoBancoDeDados([String? msg]) : super(msg ?? 'Ocorreu um erro ao acessar o banco de dados.');
+}
+
 final class FalhaDesconhecida extends Falha {
   FalhaDesconhecida([String? msg]) : super(msg ?? 'Ocorreu um erro inesperado.');
 }

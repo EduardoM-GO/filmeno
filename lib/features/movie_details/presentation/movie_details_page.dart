@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:filmeno/core/ui_kit/widgets/movie_interaction_controls.dart';
 import 'package:filmeno/features/movie_details/presentation/movie_details_notifier.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_cast_section_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_header_widget.dart';
@@ -51,6 +52,13 @@ class MovieDetailsPage extends HookConsumerWidget {
                   'poster_path': movie.posterPath,
                 });
               },
+            ),
+            SliverFloatingHeader(
+              child: MovieInteractionControls(
+                  movieId: movie.id,
+                  title: movie.title,
+                  posterPath: movie.posterPath,
+                  genreIds: movie.genres.map((g) => g.id).toList()),
             ),
             SliverPadding(
               padding: const EdgeInsets.all(16.0),

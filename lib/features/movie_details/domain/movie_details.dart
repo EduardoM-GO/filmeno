@@ -1,3 +1,4 @@
+import 'package:filmeno/features/movie_details/domain/movie_gender.dart';
 import 'package:filmeno/features/movie_details/domain/watch_provider.dart';
 
 final class MovieDetails {
@@ -6,7 +7,7 @@ final class MovieDetails {
   final String overview;
   final String backdropPath;
   final String posterPath;
-  final List<String> genres;
+  final List<MovieGender> genres;
   final List<String> cast;
   final List<WatchProvider> streamingProviders;
   final String watchLink;
@@ -34,7 +35,7 @@ final class MovieDetails {
         overview: map['overview'] ?? '',
         backdropPath: map['backdrop_path'] ?? '',
         posterPath: map['poster_path'] ?? '',
-        genres: (map['genres'] as List?)?.map((g) => g['name'] as String).toList() ?? [],
+        genres: (map['genres'] as List?)?.map((g) => MovieGender.fromMap(g)).toList() ?? [],
         cast: credits.take(5).map((c) => c['name'] as String).toList(),
         streamingProviders: providers,
         watchLink: watchLink);
