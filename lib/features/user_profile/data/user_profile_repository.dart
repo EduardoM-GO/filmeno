@@ -7,7 +7,7 @@ import '../domain/user_interaction_movie.dart';
 class UserProfileRepository {
   final Database _db;
 
-  final _moviesStore = intMapStoreFactory.store('movies_interactions');
+  final _moviesStore = stringMapStoreFactory.store('movies_interactions');
   final _profileStore = intMapStoreFactory.store('user_profile');
   final int _profileKey = 1;
 
@@ -16,20 +16,22 @@ class UserProfileRepository {
   TaskEither<Falha, Unit> saveMovieInteraction(UserInteractionMovie movie) {
     return TaskEither.tryCatch(
       () async {
-        await _moviesStore.record(movie.id).put(_db, movie.toMap());
+        await _moviesStore.record(movie.interactionKey).put(_db, movie.toMap());
         return unit;
       },
-      (error, __) => FalhaNoBancoDeDados('Erro ao salvar interação: $error'),
+      (error, stack) =>
+          FalhaNoBancoDeDados(msg: 'Erro ao salvar interação: $error', erro: error, stack: stack),
     );
   }
 
-  TaskEither<Falha, Unit> deleteMovieInteraction(int movieId) {
+  TaskEither<Falha, Unit> deleteMovieInteraction(String interactionKey) {
     return TaskEither.tryCatch(
       () async {
-        await _moviesStore.record(movieId).delete(_db);
+        await _moviesStore.record(interactionKey).delete(_db);
         return unit;
       },
-      (error, __) => FalhaNoBancoDeDados('Erro ao remover interação: $error'),
+      (error, stack) =>
+          FalhaNoBancoDeDados(msg: 'Erro ao remover interação: $error', erro: error, stack: stack),
     );
   }
 
@@ -39,7 +41,8 @@ class UserProfileRepository {
         final snapshots = await _moviesStore.find(_db);
         return snapshots.map((s) => UserInteractionMovie.fromMap(s.value)).toList();
       },
-      (error, __) => FalhaNoBancoDeDados('Erro ao buscar interações: $error'),
+      (error, stack) =>
+          FalhaNoBancoDeDados(msg: 'Erro ao buscar interações: $error', erro: error, stack: stack),
     );
   }
 

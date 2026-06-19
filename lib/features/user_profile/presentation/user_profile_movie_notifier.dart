@@ -1,4 +1,5 @@
 import 'package:filmeno/features/user_profile/domain/movie_interaction_status_enum.dart';
+import 'package:filmeno/features/movie_search/domain/enums/media_type_enum.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/local_storage/sembast_provider.dart';
@@ -18,7 +19,8 @@ class UserProfileMovieNotifier extends _$UserProfileMovieNotifier {
   }
 
   Future<void> updateStatus({
-    required int movieId,
+    required int mediaId,
+    required MediaTypeEnum mediaType,
     required String title,
     required String posterPath,
     required List<int> genreIds,
@@ -28,11 +30,14 @@ class UserProfileMovieNotifier extends _$UserProfileMovieNotifier {
     final repository = UserProfileRepository(db);
 
     if (newStatus == MovieInteractionStatusEnum.none) {
-      await repository.deleteMovieInteraction(movieId).run();
+      await repository
+          .deleteMovieInteraction('${mediaType.storageValue}:$mediaId')
+          .run();
     } else {
       final interaction = UserInteractionMovie(
-        id: movieId,
+        id: mediaId,
         title: title,
+        mediaType: mediaType,
         posterPath: posterPath,
         genreIds: genreIds,
         status: newStatus,

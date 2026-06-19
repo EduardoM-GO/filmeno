@@ -25,7 +25,7 @@ class FunctionalClient {
       },
       (error, stackTrace) {
         if (error is Falha) return error;
-        return FalhaRede(error.toString());
+        return FalhaRede(msg: error.toString(), erro: error, stack: stackTrace);
       },
     );
   }

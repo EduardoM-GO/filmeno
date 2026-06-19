@@ -11,17 +11,21 @@ class TrendingRepository {
   TrendingRepository(this._client);
 
   TaskEither<Falha, List<TrendingMovie>> getTrendingMovies({int page = 1}) {
-    return _client.get('/trending/movie/day', params: {
+    return _client.get('/trending/all/day', params: {
       'language': 'pt-BR',
       'page': '$page',
     }).map((response) {
       final results = response['results'] as List;
-      return results.map((m) => TrendingMovie.fromMap(m)).toList();
+      return results
+          .map((m) => TrendingMovie.fromMap(m))
+          .where((item) => item.mediaType.isSupported)
+          .toList();
     });
   }
 }
 
-final trendingRepositoryProvider = Provider.autoDispose<TrendingRepository>((ref) {
+final trendingRepositoryProvider =
+    Provider.autoDispose<TrendingRepository>((ref) {
   final client = ref.watch(functionalClientProvider);
   return TrendingRepository(client);
 });

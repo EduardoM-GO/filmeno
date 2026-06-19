@@ -10,6 +10,7 @@ part 'movie_search_notifier.g.dart';
 @riverpod
 class MovieSearchNotifier extends _$MovieSearchNotifier {
   Timer? _debounceTimer;
+  int _searchVersion = 0;
 
   @override
   FutureOr<List<SearchResult>> build() {
@@ -19,21 +20,22 @@ class MovieSearchNotifier extends _$MovieSearchNotifier {
 
   Future<void> search(String query) async {
     _debounceTimer?.cancel();
+    final trimmedQuery = query.trim();
+    final searchVersion = ++_searchVersion;
 
-    if (query.trim().length < 2) {
+    if (trimmedQuery.length < 2) {
       state = const AsyncData([]);
       return;
     }
 
-    ///Todo: Verificar porque não está funcionando
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
       state = const AsyncLoading();
 
       final repository = ref.read(searchRepositoryProvider);
 
-      final result = await repository.searchMulti(query).run();
+      final result = await repository.searchMulti(trimmedQuery).run();
 
-      if (!ref.mounted) return;
+      if (!ref.mounted || searchVersion != _searchVersion) return;
 
       state = result.match(
         (falha) => AsyncError(falha.mensagem, StackTrace.current),

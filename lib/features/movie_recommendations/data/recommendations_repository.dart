@@ -3,6 +3,7 @@ import 'package:sembast/sembast.dart';
 
 import '../../../core/network/functional_client.dart';
 import '../../../shared/exceptions/falha.dart';
+import '../../movie_search/domain/enums/media_type_enum.dart';
 import '../../movie_trending/domain/trending_movie.dart';
 
 class RecommendationsRepository {
@@ -10,12 +11,12 @@ class RecommendationsRepository {
   final Database _db;
 
   final _profileStore = intMapStoreFactory.store('user_profile');
-  final _moviesStore = intMapStoreFactory.store('movies_interactions');
+  final _moviesStore = stringMapStoreFactory.store('movies_interactions');
   final int _profileKey = 1;
 
   RecommendationsRepository(this._client, this._db);
 
-  /// Busca filmes recomendados baseados na matriz de gêneros local
+  /// Busca títulos recomendados baseados na matriz de gêneros local.
   TaskEither<Falha, List<TrendingMovie>> getRecommendedMovies() {
     return TaskEither.tryCatch(
       () async {
@@ -41,29 +42,51 @@ class RecommendationsRepository {
         // Criamos a string para o parâmetro with_genres separando por '|' (Operador OR do TMDB)
         final genresParam = genreIdsIds.join('|');
 
-        // 3. Fazer a requisição ao /discover/movie do TMDB
-        final response = await _client.get('/discover/movie', params: {
-          'language': 'pt-BR',
-          'with_genres': genresParam,
-          'sort_by': 'popularity.desc', // Traz os mais populares dentro daqueles gêneros
-        }).run();
+        final recommendedMovies = await _discoverByGenres(
+          endpoint: '/discover/movie',
+          genresParam: genresParam,
+          fallbackMediaType: MediaTypeEnum.movie,
+        ).run();
 
-        return response.match(
-          (falha) => throw falha,
-          (json) async {
-            final results = json['results'] as List;
-            final apiMovies = results.map((m) => TrendingMovie.fromMap(m)).toList();
+        final recommendedSeries = await _discoverByGenres(
+          endpoint: '/discover/tv',
+          genresParam: genresParam,
+          fallbackMediaType: MediaTypeEnum.tv,
+        ).run();
 
-            // 4. FILTRO DE EXPULSÃO: Pegar IDs de filmes que o usuário já interagiu para limpar a lista
-            final userMoviesSnapshot = await _moviesStore.find(_db);
-            final excludedIds = userMoviesSnapshot.map((s) => s.key).toSet();
+        final apiTitles = [
+          ...recommendedMovies.match((falha) => throw falha, (movies) => movies),
+          ...recommendedSeries.match((falha) => throw falha, (series) => series),
+        ];
 
-            // Retorna apenas os filmes inéditos para o usuário
-            return apiMovies.where((movie) => !excludedIds.contains(movie.id)).toList();
-          },
-        );
+        final userMoviesSnapshot = await _moviesStore.find(_db);
+        final excludedIds = userMoviesSnapshot.map((s) => s.key).toSet();
+
+        return apiTitles
+            .where(
+              (title) => !excludedIds.contains('${title.mediaType.storageValue}:${title.id}'),
+            )
+            .toList();
       },
-      (error, __) => FalhaDesconhecida('Erro no motor de recomendações: $error'),
+      (error, stack) => FalhaDesconhecida(
+          msg: 'Erro no motor de recomendações: $error', erro: error, stack: stack),
     );
+  }
+
+  TaskEither<Falha, List<TrendingMovie>> _discoverByGenres({
+    required String endpoint,
+    required String genresParam,
+    required MediaTypeEnum fallbackMediaType,
+  }) {
+    return _client.get(endpoint, params: {
+      'language': 'pt-BR',
+      'with_genres': genresParam,
+      'sort_by': 'popularity.desc',
+    }).map((json) {
+      final results = json['results'] as List;
+      return results
+          .map((m) => TrendingMovie.fromMap(m, fallbackMediaType: fallbackMediaType))
+          .toList();
+    });
   }
 }

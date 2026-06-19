@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:filmeno/core/ui_kit/widgets/movie_interaction_controls.dart';
+import 'package:filmeno/core/ui_kit/widgets/app_error_state_widget.dart';
+import 'package:filmeno/core/ui_kit/widgets/app_loading_state_widget.dart';
+import 'package:filmeno/core/ui_kit/widgets/movie_interaction_controls_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/movie_details_notifier.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_cast_section_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_header_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_overview_section_widget.dart';
 import 'package:filmeno/features/movie_details/presentation/widgets/movie_details_streaming_section_widget.dart';
+import 'package:filmeno/features/movie_search/domain/enums/media_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,13 +15,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../core/network/api_config.dart';
 import '../../../core/theme/dynamic_theme_provider.dart';
 
-class MovieDetailsPage extends HookConsumerWidget {
-  final int movieId;
-  const MovieDetailsPage({super.key, required this.movieId});
+class MovieDetailsPageWidget extends HookConsumerWidget {
+  final int mediaId;
+  final MediaTypeEnum mediaType;
+
+  const MovieDetailsPageWidget({
+    super.key,
+    required this.mediaId,
+    required this.mediaType,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final detailsAsync = ref.watch(movieDetailsProvider(movieId));
+    final detailsAsync = ref.watch(movieDetailsProvider(mediaId, mediaType));
 
     useEffect(() {
       detailsAsync.whenData((details) {
@@ -38,8 +47,9 @@ class MovieDetailsPage extends HookConsumerWidget {
               movie: movie,
             ),
             SliverFloatingHeader(
-              child: MovieInteractionControls(
-                  movieId: movie.id,
+              child: MovieInteractionControlsWidget(
+                  mediaId: movie.id,
+                  mediaType: movie.mediaType,
                   title: movie.title,
                   posterPath: movie.posterPath,
                   genreIds: movie.genres.map((g) => g.id).toList()),
@@ -61,8 +71,9 @@ class MovieDetailsPage extends HookConsumerWidget {
             ),
           ],
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Erro: $err')),
+        loading: () =>
+            const AppLoadingStateWidget(label: 'Abrindo ficha do título...'),
+        error: (err, stack) => AppErrorStateWidget(error: err),
       ),
     );
   }

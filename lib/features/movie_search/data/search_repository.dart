@@ -19,7 +19,10 @@ final class SearchRepository {
       'language': 'pt-BR',
     }).map((response) {
       final results = response['results'] as List;
-      return results.map((m) => SearchResult.fromMap(m)).toList();
+      return results
+          .map((m) => SearchResult.fromMap(m))
+          .where((result) => result.mediaType.isSupported)
+          .toList();
     });
   }
 }

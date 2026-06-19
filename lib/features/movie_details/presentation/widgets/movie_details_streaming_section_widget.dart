@@ -8,31 +8,52 @@ final class MovieDetailsStreamingSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Disponível em:", style: Theme.of(context).textTheme.titleMedium),
+        Text(
+          'Onde assistir',
+          style:
+              theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+        ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 50,
+          height: 64,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: movie.streamingProviders.length,
             itemBuilder: (context, i) {
               final provider = movie.streamingProviders[i];
-              return InkWell(
-                onTap: () async {
-                  final url = Uri.parse(movie.watchLink);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://image.tmdb.org/t/p/original${provider.logoPath}',
+              return Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: InkWell(
+                  onTap: () async {
+                    final url = Uri.parse(movie.watchLink);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url,
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Ink(
+                    width: 64,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerHigh,
+                      borderRadius: BorderRadius.circular(8),
+                      border:
+                          Border.all(color: theme.colorScheme.outlineVariant),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(7),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: Image.network(
+                          'https://image.tmdb.org/t/p/original${provider.logoPath}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),

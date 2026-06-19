@@ -1,4 +1,5 @@
 import 'package:filmeno/features/movie_details/domain/watch_provider.dart';
+import 'package:filmeno/features/movie_search/domain/enums/media_type_enum.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,8 +12,11 @@ class MovieDetailsRepository {
   final FunctionalClient _client;
   MovieDetailsRepository(this._client);
 
-  TaskEither<Falha, MovieDetails> getDetails(int movieId) {
-    return _client.get('/movie/$movieId', params: {
+  TaskEither<Falha, MovieDetails> getDetails({
+    required int mediaId,
+    required MediaTypeEnum mediaType,
+  }) {
+    return _client.get('/${mediaType.endpointSegment}/$mediaId', params: {
       'append_to_response': 'credits,watch/providers',
       'language': 'pt-BR',
     }).map((response) {
@@ -23,7 +27,12 @@ class MovieDetailsRepository {
       final providers = flatrate.map((p) => WatchProvider.fromMap(p)).toList();
       final link = providersData?['link'] as String?;
 
-      return MovieDetails.fromMap(map: response, providers: providers, watchLink: link ?? '');
+      return MovieDetails.fromMap(
+        map: response,
+        providers: providers,
+        watchLink: link ?? '',
+        mediaType: mediaType,
+      );
     });
   }
 }

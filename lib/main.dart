@@ -1,4 +1,4 @@
-import 'package:filmeno/features/navigation/presentation/main_page.dart';
+import 'package:filmeno/features/navigation/presentation/main_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,13 +7,13 @@ import 'core/theme/dynamic_theme_provider.dart';
 void main() {
   runApp(
     const ProviderScope(
-      child: FilmenoApp(),
+      child: FilmenoAppWidget(),
     ),
   );
 }
 
-class FilmenoApp extends ConsumerWidget {
-  const FilmenoApp({super.key});
+class FilmenoAppWidget extends ConsumerWidget {
+  const FilmenoAppWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,7 @@ class FilmenoApp extends ConsumerWidget {
       title: 'Filmeno',
       debugShowCheckedModeBanner: false,
       theme: themeData,
-      home: const MainPage(),
+      home: const MainPageWidget(),
     );
   }
 }
